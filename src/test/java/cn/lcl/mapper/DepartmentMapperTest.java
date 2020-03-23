@@ -1,5 +1,6 @@
 package cn.lcl.mapper;
 
+import cn.lcl.pojo.Department;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,16 +13,17 @@ class DepartmentMapperTest {
     @Test
     public void insertDept() {
         Department department = new Department();
-        department.setName("中国石油大学华东");
-        department.setNumber(1);
-        department.setLevel(0);
+        department.setParentId(1242085090150871041L);
+        department.setName("软件工程");
+        department.setNumber(1202);
+        department.setLevel(2);
         int insert = departmentMapper.insert(department);
         System.out.println("影响个数"+insert);
     }
 
     @Test
     public void selectDept() {
-        Department department = departmentMapper.selectById(1241602676962193410L);
+        Department department = departmentMapper.selectById(123L);
         System.out.println(department);
     }
 }
