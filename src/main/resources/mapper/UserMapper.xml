@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcl.mapper.UserMapper">
+    <select id="selectMaxNumber" resultType="java.lang.Long">
+        select max(oa.user.number)
+        from oa.user
+                 join oa.sys_user_role_dept as urd on user.id = urd.user_id
+                 join oa.department as dept on dept.id = urd.dept_id
+        where user.occupation = #{occupation}
+          and dept.id = #{deptId}
+    </select>
+</mapper>

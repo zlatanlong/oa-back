@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="generator.SysUserRoleDept">
-  <resultMap id="BaseResultMap" type="cn.lcl.pojo.SysUserRoleDept">
+  <resultMap id="BaseResultMap" type="cn.lcl.pojo.UserRoleDept">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
@@ -22,13 +22,13 @@
     delete from classroom
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom (created_time, updated_time, deleted, 
       dept_id, `name`)
     values (#{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=TINYINT}, 
       #{deptId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createdTime != null">
@@ -65,7 +65,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     <set>
       <if test="createdTime != null">
@@ -86,7 +86,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
@@ -95,7 +95,7 @@
       `name` = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <resultMap id="BaseResultMap" type="cn.lcl.pojo.SysUserRoleDept">
+  <resultMap id="BaseResultMap" type="cn.lcl.pojo.UserRoleDept">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
@@ -116,13 +116,13 @@
     delete from classroom
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom (created_time, updated_time, deleted, 
       dept_id, `name`)
     values (#{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=TINYINT}, 
       #{deptId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createdTime != null">
@@ -159,7 +159,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     <set>
       <if test="createdTime != null">
@@ -180,7 +180,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
@@ -189,7 +189,7 @@
       `name` = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <resultMap id="BaseResultMap" type="cn.lcl.pojo.SysUserRoleDept">
+  <resultMap id="BaseResultMap" type="cn.lcl.pojo.UserRoleDept">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
@@ -210,13 +210,13 @@
     delete from classroom
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom (created_time, updated_time, deleted, 
       dept_id, `name`)
     values (#{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=TINYINT}, 
       #{deptId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into classroom
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createdTime != null">
@@ -253,7 +253,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     <set>
       <if test="createdTime != null">
@@ -274,7 +274,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.UserRoleDept">
     update classroom
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},
@@ -283,7 +283,7 @@
       `name` = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <resultMap id="BaseResultMap" type="cn.lcl.pojo.SysUserRoleDept">
+  <resultMap id="BaseResultMap" type="cn.lcl.pojo.UserRoleDept">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
@@ -308,7 +308,7 @@
     delete from department
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into department (created_time, updated_time, deleted, 
       parent_id, `name`, `level`, 
       parent_path, `number`)
@@ -316,7 +316,7 @@
       #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
       #{parentPath,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.SysUserRoleDept" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.lcl.pojo.UserRoleDept" useGeneratedKeys="true">
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="createdTime != null">
@@ -371,7 +371,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.lcl.pojo.UserRoleDept">
     update department
     <set>
       <if test="createdTime != null">
@@ -401,7 +401,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.SysUserRoleDept">
+  <update id="updateByPrimaryKey" parameterType="cn.lcl.pojo.UserRoleDept">
     update department
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       updated_time = #{updatedTime,jdbcType=TIMESTAMP},

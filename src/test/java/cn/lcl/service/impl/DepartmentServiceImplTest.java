@@ -16,12 +16,12 @@ class DepartmentServiceImplTest {
 
     @Test
     public void add() {
-        this.insert(11011601);
-        this.insert(11011602);
-        this.insert(11011603);
+        this.insert(11011601L);
+        this.insert(11011602L);
+        this.insert(11011603L);
 
     }
-    public void insert(Integer number) {
+    public void insert(Long number) {
         Department department = new Department();
         department.setParentId(1242100166115225601L);
         department.setName("通信工程1601班");

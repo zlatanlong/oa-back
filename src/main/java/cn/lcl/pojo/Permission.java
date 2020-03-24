@@ -6,15 +6,17 @@ import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * sys_role
+ * sys_permission
  *
  * @author
  */
 @Data
-public class SysRole {
+@TableName("sys_permission")
+public class Permission {
     /**
      * 主键
      */
@@ -33,7 +35,17 @@ public class SysRole {
     private Integer deleted;
 
     /**
-     * 职务描述
+     * 权限名
      */
     private String name;
+
+    /**
+     * 权限名中文，用于解释
+     */
+    private String nameZh;
+
+    /**
+     * 对应的接口
+     */
+    private String api;
 }

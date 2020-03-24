@@ -32,12 +32,12 @@ public class User {
     /**
      * 微信的openid
      */
-    private Long wxOpenid;
+    private String wxOpenid;
 
     /**
      * 学号/工号
      */
-    private Long schoolId;
+    private Long number;
 
     /**
      * 姓名
@@ -48,6 +48,11 @@ public class User {
      * 手机号
      */
     private String phone;
+
+    /**
+     * 密码
+     */
+    private String password;
 
     /**
      * 头像地址

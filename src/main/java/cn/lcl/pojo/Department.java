@@ -55,5 +55,5 @@ public class Department {
     /**
      * 部门编号
      */
-    private Integer number;
+    private Long number;
 }

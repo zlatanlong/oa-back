@@ -15,7 +15,7 @@ class DepartmentMapperTest {
         Department department = new Department();
         department.setParentId(1242085090150871041L);
         department.setName("软件工程");
-        department.setNumber(1202);
+        department.setNumber(1202L);
         department.setLevel(2);
         int insert = departmentMapper.insert(department);
         System.out.println("影响个数"+insert);
