@@ -2,7 +2,9 @@ package cn.lcl.service.impl;
 
 import cn.lcl.mapper.DepartmentMapper;
 import cn.lcl.pojo.Department;
+import cn.lcl.pojo.result.Result;
 import cn.lcl.service.DepartmentService;
+import cn.lcl.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public Department addDepartment(Department department) {
+    public Result<Department> addDepartment(Department department) {
         // 先判断number是否重复
         HashMap<String, Object> map = new HashMap<>();
         map.put("number", department.getNumber());
@@ -46,7 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         department.setLevel(parentDept.getLevel() + 1);
         departmentMapper.insert(department);
-        return department;
+        return ResultUtil.success(department);
 
     }
 }

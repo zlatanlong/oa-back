@@ -1,6 +1,7 @@
 package cn.lcl.controller;
 
 import cn.lcl.pojo.Department;
+import cn.lcl.pojo.result.Result;
 import cn.lcl.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @PostMapping
-    public Department add(@RequestBody Department department) {
+    public Result<Department> add(@RequestBody Department department) {
         return departmentService.addDepartment(department);
     }
 

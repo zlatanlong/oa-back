@@ -1,6 +1,7 @@
 package cn.lcl.controller;
 
 import cn.lcl.pojo.User;
+import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public User add(@RequestBody Map<String,Object> map) {
+    public Result<User> add(@RequestBody Map<String,Object> map) {
         return userService.addUser(map);
     }
 
     @PutMapping("/active")
-    public User active(@RequestBody User user) {
+    public Result<User> active(@RequestBody User user) {
         return userService.active(user);
     }
 

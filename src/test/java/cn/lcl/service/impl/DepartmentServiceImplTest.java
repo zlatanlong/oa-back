@@ -27,8 +27,8 @@ class DepartmentServiceImplTest {
         department.setName("通信工程1601班");
         department.setNumber(number);
 
-        Department addDepartment = departmentService.addDepartment(department);
-        System.out.println(addDepartment);
+//        Department addDepartment = departmentService.addDepartment(department);
+//        System.out.println(addDepartment);
     }
 
 }

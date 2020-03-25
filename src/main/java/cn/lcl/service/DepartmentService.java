@@ -1,7 +1,8 @@
 package cn.lcl.service;
 
 import cn.lcl.pojo.Department;
+import cn.lcl.pojo.result.Result;
 
 public interface DepartmentService {
-    Department addDepartment(Department department);
+    Result<Department> addDepartment(Department department);
 }

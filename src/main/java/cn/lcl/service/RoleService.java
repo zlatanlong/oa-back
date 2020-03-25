@@ -1,7 +1,8 @@
 package cn.lcl.service;
 
 import cn.lcl.pojo.Role;
+import cn.lcl.pojo.result.Result;
 
 public interface RoleService {
-    Role add(Role role);
+    Result<Role> add(Role role);
 }

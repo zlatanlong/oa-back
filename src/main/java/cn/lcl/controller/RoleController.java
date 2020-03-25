@@ -1,6 +1,7 @@
 package cn.lcl.controller;
 
 import cn.lcl.pojo.Role;
+import cn.lcl.pojo.result.Result;
 import cn.lcl.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class RoleController {
     RoleService roleService;
 
     @PostMapping
-    public Role add(@RequestBody Role role) {
+    public Result<Role> add(@RequestBody Role role) {
         return roleService.add(role);
     }
 }
