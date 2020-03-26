@@ -1,13 +1,14 @@
 package cn.lcl.mapper;
 
-import cn.lcl.pojo.User;
+import cn.lcl.pojo.UserRoleDept;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-@Mapper
+import java.util.List;
+
 @Repository
-public interface UserMapper extends BaseMapper<User> {
-    Long selectMaxNumber(Long deptId, Integer occupation);
-    void test();
+@Mapper
+public interface GreatRoleMapper {
+    List<Long> selectManagedUser(Long userRoleDeptId);
 }

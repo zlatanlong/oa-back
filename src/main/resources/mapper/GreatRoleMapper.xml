@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.lcl.mapper.GreatRoleMapper">
+    <select id="selectManagedUser" resultType="java.lang.Long">
+        select user.id
+        from oa.department as d1
+                 join oa.sys_user_role_dept as urd1
+                      on d1.id = urd1.dept_id
+                 join oa.user
+                      on user.id = urd1.user_id
+        where find_in_set(
+                      cast((select d.id
+                            from oa.department as d
+                                     join oa.sys_user_role_dept as urd
+                                          on d.id = urd.dept_id
+                            where urd.id = #{userRoleDeptId})
+                          as char),
+                      d1.parent_path
+                  );
+    </select>
+</mapper>
