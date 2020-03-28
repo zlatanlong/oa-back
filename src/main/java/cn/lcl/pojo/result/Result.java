@@ -4,15 +4,14 @@ import lombok.Data;
 
 /**
  * 返回给前端的最外层对象
- * @param <T>
  */
 @Data
-public class Result<T> {
+public class Result {
 
     private Integer code;
 
     private String msg;
 
-    private T data;
+    private Object data;
 
 }

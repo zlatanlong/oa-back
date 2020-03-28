@@ -16,12 +16,12 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public Result<User> add(@RequestBody Map<String,Object> map) {
+    public Result add(@RequestBody Map<String,Object> map) {
         return userService.addUser(map);
     }
 
     @PutMapping("/active")
-    public Result<User> active(@RequestBody User user) {
+    public Result active(@RequestBody User user) {
         return userService.active(user);
     }
 

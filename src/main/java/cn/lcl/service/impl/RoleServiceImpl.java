@@ -15,7 +15,7 @@ public class RoleServiceImpl implements RoleService {
     RoleMapper roleMapper;
 
     @Override
-    public Result<Role> add(Role role) {
+    public Result add(Role role) {
         roleMapper.insert(role);
         return ResultUtil.success(role);
     }

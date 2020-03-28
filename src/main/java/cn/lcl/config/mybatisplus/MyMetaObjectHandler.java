@@ -1,4 +1,4 @@
-package cn.lcl.component;
+package cn.lcl.config.mybatisplus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+/**
+ * mybatus-plus 自动填充配置
+ */
 @Slf4j
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("插入fill");
-
         /*
          * 如果有的实体有createTime字段需要fill，
          * 有的实体没有，并且添加createTime字段
@@ -27,7 +28,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
          */
         Object createTime = getFieldValByName("createdTime", metaObject);
 
-        System.out.println("hasSetter" + hasSetter);
         if (hasSetter && createTime == null) {
             this.strictInsertFill(metaObject, "createdTime", LocalDateTime.class, LocalDateTime.now());
         }
@@ -35,7 +35,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("更新fill");
         this.strictUpdateFill(metaObject, "updatedTime", LocalDateTime.class, LocalDateTime.now());
     }
 }

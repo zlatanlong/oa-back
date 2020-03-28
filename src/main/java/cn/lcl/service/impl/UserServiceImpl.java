@@ -1,5 +1,7 @@
 package cn.lcl.service.impl;
 
+import cn.lcl.exception.MyException;
+import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.DepartmentMapper;
 import cn.lcl.mapper.RoleMapper;
 import cn.lcl.mapper.UserMapper;
@@ -34,13 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Result<User> addUser(Map<String, Object> map) {
+    public Result addUser(Map<String, Object> map) {
         User user = new User();
         try {
             BeanUtils.copyProperties(user, map);
         } catch (Exception e) {
             // 反射异常
-            return null;
+            throw new MyException(ResultEnum.USER_INFO_NOT_INTEGRITY);
         }
         // 从部门获取number
         Long deptId = (Long) map.get("deptId");
@@ -65,13 +67,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<User> active(User user) {
+    public Result active(User user) {
         boolean update = new LambdaUpdateChainWrapper<User>(userMapper).eq(User::getId, user.getId())
                 .set(User::getState, 1).update();
         if (update) {
             return ResultUtil.success(user);
         } else {
-            return null;
+            throw new MyException(ResultEnum.USER_ACTIVE_FAIL);
         }
+    }
+
+    @Override
+    public User queryUserByPhone(String phone) {
+        return new LambdaQueryChainWrapper<User>(userMapper).eq(User::getPhone, phone).one();
     }
 }

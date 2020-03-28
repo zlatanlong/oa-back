@@ -5,8 +5,8 @@ import cn.lcl.pojo.result.Result;
 
 public class ResultUtil {
 
-    public static <T> Result success(T object) {
-        Result result = new Result<T>();
+    public static  Result success(Object object) {
+        Result result = new Result();
         result.setCode(ResultEnum.SUCCESS.getCode());
         result.setMsg(ResultEnum.SUCCESS.getMsg());
         result.setData(object);
@@ -22,7 +22,7 @@ public class ResultUtil {
      *
      * @param code 失败码
      * @param msg  失败信息
-     * @return
+     * @return 返回失败信息
      */
     public static Result error(Integer code, String msg) {
         Result result = new Result();

@@ -1,5 +1,7 @@
 package cn.lcl.service.impl;
 
+import cn.lcl.exception.MyException;
+import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.DepartmentMapper;
 import cn.lcl.pojo.Department;
 import cn.lcl.pojo.result.Result;
@@ -23,19 +25,18 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public Result<Department> addDepartment(Department department) {
+    public Result addDepartment(Department department) {
         // 先判断number是否重复
         HashMap<String, Object> map = new HashMap<>();
         map.put("number", department.getNumber());
         if (departmentMapper.selectByMap(map).size()!=0) {
-            return null;
+            throw new MyException(ResultEnum.DEPARTMENT_REPEAT);
         }
 
         Long parentId = department.getParentId();
         Department parentDept = departmentMapper.selectById(parentId);
         if (parentDept == null) {
-            //没有父节点
-            return null;
+            throw new MyException(ResultEnum.DEPARTMENT_NO_PARENT);
         } else if (parentDept.getParentPath() == null) {
             // 它的父还没有上一辈，此时吧它的父加入path即可
             department.setParentPath(parentId.toString());
