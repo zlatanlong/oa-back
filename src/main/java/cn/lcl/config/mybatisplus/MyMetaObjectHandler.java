@@ -1,8 +1,11 @@
 package cn.lcl.config.mybatisplus;
 
+import cn.lcl.pojo.User;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -26,7 +29,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         /*
          * 先看是否主动设了值
          */
-        Object createTime = getFieldValByName("createdTime", metaObject);
+        Object createTime = this.getFieldValByName("createdTime", metaObject);
 
         if (hasSetter && createTime == null) {
             this.strictInsertFill(metaObject, "createdTime", LocalDateTime.class, LocalDateTime.now());
@@ -35,6 +38,16 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        log.info("==============execute update fill============");
+        boolean hasSetter = metaObject.hasSetter("operateUserId");
+        if (hasSetter) {
+            Subject subject = SecurityUtils.getSubject();
+            if (subject.isAuthenticated()) {
+                User user = (User) subject.getPrincipal();
+                this.strictUpdateFill(metaObject, "operateUserId", Long.class, user.getId());
+            }
+        }
+
         this.strictUpdateFill(metaObject, "updatedTime", LocalDateTime.class, LocalDateTime.now());
     }
 }

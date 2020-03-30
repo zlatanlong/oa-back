@@ -28,8 +28,9 @@ public class ShiroConfig {
          * roles: 拥有某个角色
          */
         HashMap<String, String> filterMap = new HashMap<>();
-        filterMap.put("/*", "anon");
-//        filterMap.put("/user/add", "authc");
+        filterMap.put("/user/login", "anon");
+        filterMap.put("/user", "authc");
+        filterMap.put("/user/active", "authc");
 //        filterMap.put("/user/add", "perms[user:add]");
 //        filterMap.put("/user/update", "authc");
 //        filterMap.put("/user/update", "perms[user:update]");

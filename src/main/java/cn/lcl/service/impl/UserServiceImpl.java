@@ -6,16 +6,19 @@ import cn.lcl.mapper.DepartmentMapper;
 import cn.lcl.mapper.RoleMapper;
 import cn.lcl.mapper.UserMapper;
 import cn.lcl.mapper.UserRoleDeptMapper;
-import cn.lcl.pojo.Department;
 import cn.lcl.pojo.Role;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.UserRoleDept;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
 import cn.lcl.util.ResultUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,11 +70,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Result getUser() {
+        Subject subject = SecurityUtils.getSubject();
+
+        User user = (User) subject.getPrincipal();
+
+        // 用户可能会修改user所以不用subject中的数据
+        return ResultUtil.success(userMapper.selectById(user.getId()));
+    }
+
+    @Override
     public Result active(User user) {
-        boolean update = new LambdaUpdateChainWrapper<User>(userMapper).eq(User::getId, user.getId())
-                .set(User::getState, 1).update();
-        if (update) {
-            return ResultUtil.success(user);
+//        boolean update = new LambdaUpdateChainWrapper<User>(userMapper).eq(User::getId, user.getId())
+//                .set(User::getState, 1).update();
+        User updateUser = new User();
+        updateUser.setState((byte) 1);
+        updateUser.setId(user.getId());
+        int i = userMapper.updateById(updateUser);
+
+        if (i == 1) {
+            return ResultUtil.success(Boolean.TRUE);
         } else {
             throw new MyException(ResultEnum.USER_ACTIVE_FAIL);
         }

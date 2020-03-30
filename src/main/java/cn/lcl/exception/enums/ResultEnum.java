@@ -10,6 +10,9 @@ public enum ResultEnum {
     SUCCESS(0, "成功"),
     USER_INFO_NOT_INTEGRITY(001, "用户信息不完整"),
     USER_ACTIVE_FAIL(002, "用户激活失败"),
+    USER_NOT_FOUND(003, "用户没有找到"),
+    USER_PASSWORD_FAILED(004, "用户密码错误"),
+    USER_NOT_ACTIVE(005, "用户未激活"),
     DEPARTMENT_REPEAT(101,"部门重复"),
     DEPARTMENT_NO_PARENT(101,"部门重复"),
     ;

@@ -72,5 +72,6 @@ public class User {
     /**
      * 操作人
      */
+    @TableField(fill = FieldFill.UPDATE)
     private Long operateUserId;
 }
