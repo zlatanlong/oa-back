@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.lcl.mapper.GreatRoleMapper">
+<mapper namespace="cn.lcl.mapper.AuthorMapper">
     <select id="selectManagedUser" resultType="java.lang.Long">
         select user.id
         from oa.department as d1
@@ -17,5 +17,14 @@
                           as char),
                       d1.parent_path
                   );
+    </select>
+    <select id="getRolePermission" resultType="cn.lcl.pojo.ov.RoleApiOV">
+        select r.name as role, p.api as api
+        from oa.sys_permission as p
+                 join oa.sys_role_permission as rp
+                      on p.id = rp.perm_id
+                 join oa.sys_role r
+                      on r.id = rp.role_id
+        where role_id = #{roleId}
     </select>
 </mapper>

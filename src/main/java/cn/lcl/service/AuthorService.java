@@ -2,6 +2,7 @@ package cn.lcl.service;
 
 import cn.lcl.pojo.UserRoleDept;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -14,4 +15,16 @@ public interface AuthorService {
      * @return
      */
     List<Long> findManagedUser(UserRoleDept userRoleDept);
+
+
+    LinkedHashMap<String,String> getRoleFilterMap();
+
+
+    /**
+     * 这是一个开发人员专用的
+     * @param api
+     * @param description
+     * @return
+     */
+    boolean addPermissionWithRole(String api, String description);
 }

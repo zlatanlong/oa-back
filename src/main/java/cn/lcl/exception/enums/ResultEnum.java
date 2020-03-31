@@ -4,6 +4,7 @@ public enum ResultEnum {
     /**
      * 0-100: 用户异常
      * 101-200: 部门异常
+     * 1001-1010
      * 定义了枚举实例，它的属性是类的私有变量，然后可以通过使用    该类的名称.枚举实例名.get(属性)
      */
     UNKONW_ERROR(-1, "未知错误"),
@@ -15,6 +16,7 @@ public enum ResultEnum {
     USER_NOT_ACTIVE(005, "用户未激活"),
     DEPARTMENT_REPEAT(101,"部门重复"),
     DEPARTMENT_NO_PARENT(101,"部门重复"),
+    NOT_AUTHENTICATION(1001,"未登录"),
     ;
     private Integer code;
     private String msg;
