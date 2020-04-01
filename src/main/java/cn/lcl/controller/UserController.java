@@ -3,7 +3,7 @@ package cn.lcl.controller;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.AuthcService;
-import cn.lcl.service.AuthorService;
+import cn.lcl.service.AuthzService;
 import cn.lcl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     AuthcService authcService;
     @Autowired
-    AuthorService authorService;
+    AuthzService authzService;
 
 
     @PostMapping("/register")
@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping("/urd/{urdId}")
     public Result addUserRoleDepartment(@PathVariable Long urdId){
-        return authorService.authorByUserRoleDeptId(urdId);
+        return authzService.authzByUserRoleDeptId(urdId);
     }
 
     @PutMapping("/active")

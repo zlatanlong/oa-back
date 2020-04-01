@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Repository
 @Mapper
-public interface AuthorMapper {
+public interface AuthzMapper {
     List<Long> selectManagedUser(Long userRoleDeptId);
 
     List<RoleApiOV> getRolePermission();

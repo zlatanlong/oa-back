@@ -1,6 +1,6 @@
 package cn.lcl.config.shrio;
 
-import cn.lcl.service.AuthorService;
+import cn.lcl.service.AuthzService;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Autowired
-    AuthorService authorService;
+    AuthzService authzService;
 
     // 3. ShiroFilterFactoryBean
     // 请求在这里拦截
@@ -39,12 +39,14 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/user/login", "anon");
         filterChainDefinitionMap.put("/*", "authc");
         // api - 角色
-        filterChainDefinitionMap.putAll(authorService.getRoleFilterMap());
+        filterChainDefinitionMap.putAll(authzService.getRoleFilterMap());
 
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
+        // 均用自定义filter接管
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("authc", new CORSAuthenticationFilter());
+        filterMap.put("roles", new MyRolesAuthorizationFilter());
         shiroFilter.setFilters(filterMap);
 
         return shiroFilter;

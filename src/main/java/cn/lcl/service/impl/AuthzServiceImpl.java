@@ -2,7 +2,7 @@ package cn.lcl.service.impl;
 
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
-import cn.lcl.mapper.AuthorMapper;
+import cn.lcl.mapper.AuthzMapper;
 import cn.lcl.mapper.PermissionMapper;
 import cn.lcl.mapper.RolePermissionMapper;
 import cn.lcl.mapper.UserRoleDeptMapper;
@@ -12,7 +12,7 @@ import cn.lcl.pojo.User;
 import cn.lcl.pojo.UserRoleDept;
 import cn.lcl.pojo.ov.RoleApiOV;
 import cn.lcl.pojo.result.Result;
-import cn.lcl.service.AuthorService;
+import cn.lcl.service.AuthzService;
 import cn.lcl.util.ResultUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -24,10 +24,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
-public class AuthorServiceImpl implements AuthorService {
+public class AuthzServiceImpl implements AuthzService {
 
     @Autowired
-    AuthorMapper authorMapper;
+    AuthzMapper authzMapper;
     @Autowired
     PermissionMapper permissionMapper;
     @Autowired
@@ -38,12 +38,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Long> findManagedUser(Long urdId) {
-        return authorMapper.selectManagedUser(urdId);
+        return authzMapper.selectManagedUser(urdId);
     }
 
     @Override
     public LinkedHashMap<String, String> getRoleFilterMap() {
-        List<RoleApiOV> rolePermission = authorMapper.getRolePermission();
+        List<RoleApiOV> rolePermission = authzMapper.getRolePermission();
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
 
         for (RoleApiOV roleApiOV : rolePermission) {
@@ -56,11 +56,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public String getRoleInDept(Long deptId) {
-        return authorMapper.getRoleInDept(deptId);
+        return authzMapper.getRoleInDept(deptId);
     }
 
     @Override
-    public Result authorByUserRoleDeptId(Long urdId) {
+    public Result authzByUserRoleDeptId(Long urdId) {
         Subject subject = SecurityUtils.getSubject();
         // 检查是否登录
         if (!subject.isAuthenticated()) {

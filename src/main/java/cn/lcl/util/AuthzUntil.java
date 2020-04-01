@@ -7,9 +7,8 @@ import org.apache.shiro.subject.Subject;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-public class AuthorUntil {
+public class AuthzUntil {
     private static ArrayList<Long> getManagedIdList() {
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated()) {
@@ -21,15 +20,15 @@ public class AuthorUntil {
         return (ArrayList<Long>) managedIdList;
     }
 
-    public static void authorManageUser(Long id) {
+    public static void authzManageUser(Long id) {
         if (!getManagedIdList().contains(id)) {
             throw new MyException(ResultEnum.NO_AUTHOR_FOR_THIS_USER);
         }
     }
 
-    public static void authorManageUser(Collection<Long> ids) {
+    public static void authzManageUser(Collection<Long> ids) {
         for (Long id : ids) {
-            authorManageUser(id);
+            authzManageUser(id);
         }
     }
 }

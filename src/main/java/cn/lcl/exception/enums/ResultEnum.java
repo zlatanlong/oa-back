@@ -17,9 +17,10 @@ public enum ResultEnum {
     DEPARTMENT_REPEAT(101,"部门重复"),
     DEPARTMENT_NO_PARENT(101,"部门重复"),
     NOT_AUTHENTICATION(1001,"未登录"),
-    NOT_HAVE_THIS_URD(1002,"用户无此部门权限"),
+    NOT_AUTHORIZATION(1002,"未授权"),
     NOT_FOUND_THIS_URD(1003,"此部门权限不存在"),
     NO_AUTHOR_FOR_THIS_USER(1004,"管理此用户权限不足"),
+    NOT_HAVE_THIS_URD(1005,"用户无此部门权限"),
     ;
     private Integer code;
     private String msg;

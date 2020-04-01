@@ -1,18 +1,15 @@
 package cn.lcl.service.impl;
 
-import cn.lcl.pojo.UserRoleDept;
-import cn.lcl.service.AuthorService;
+import cn.lcl.service.AuthzService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
 @SpringBootTest
-class AuthorServiceImplTest {
+class AuthzServiceImplTest {
 
     @Autowired
-    AuthorService greatRoleService;
+    AuthzService greatRoleService;
 
     @Test
     public void testFind() {

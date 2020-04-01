@@ -11,7 +11,7 @@ import cn.lcl.pojo.User;
 import cn.lcl.pojo.UserRoleDept;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
-import cn.lcl.util.AuthorUntil;
+import cn.lcl.util.AuthzUntil;
 import cn.lcl.util.ResultUtil;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -81,7 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result active(User user) {
 
-        AuthorUntil.authorManageUser(user.getId());
+        AuthzUntil.authzManageUser(user.getId());
 
         User updateUser = new User();
         updateUser.setState((byte) 1);

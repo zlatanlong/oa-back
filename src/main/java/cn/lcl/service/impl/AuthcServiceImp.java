@@ -1,5 +1,6 @@
 package cn.lcl.service.impl;
 
+import cn.lcl.config.shrio.NotActiveException;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.pojo.User;
@@ -43,6 +44,8 @@ public class AuthcServiceImp implements AuthcService {
             throw new MyException(ResultEnum.USER_PASSWORD_FAILED);
         } catch (UnknownAccountException e) {
             throw new MyException(ResultEnum.USER_NOT_FOUND);
+        } catch (NotActiveException e) {
+            throw new MyException(ResultEnum.USER_NOT_ACTIVE);
         } catch (ClassCastException e) {
             throw new MyException(ResultEnum.USER_INFO_NOT_INTEGRITY);
         }

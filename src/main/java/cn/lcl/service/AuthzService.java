@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 这个接口是核心的权限控制业务
  */
-public interface AuthorService {
+public interface AuthzService {
     /**
      * 找一个用户管理的所有人的id集合
      * @param urdId 登录时候传递的
@@ -33,7 +33,7 @@ public interface AuthorService {
      * 传递urd id
      * @return
      */
-    Result authorByUserRoleDeptId(Long urdId);
+    Result authzByUserRoleDeptId(Long urdId);
 
 
     /**
