@@ -11,11 +11,9 @@ import cn.lcl.pojo.User;
 import cn.lcl.pojo.UserRoleDept;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
+import cn.lcl.util.AuthorUntil;
 import cn.lcl.util.ResultUtil;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -23,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -81,8 +80,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result active(User user) {
-//        boolean update = new LambdaUpdateChainWrapper<User>(userMapper).eq(User::getId, user.getId())
-//                .set(User::getState, 1).update();
+
+        AuthorUntil.authorManageUser(user.getId());
+
         User updateUser = new User();
         updateUser.setState((byte) 1);
         updateUser.setId(user.getId());

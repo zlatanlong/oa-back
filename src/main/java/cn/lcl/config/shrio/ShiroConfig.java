@@ -38,12 +38,9 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/user/login", "anon");
         filterChainDefinitionMap.put("/*", "authc");
-//        filterChainDefinitionMap.put("/user/active", "authc");
-        // 角色
+        // api - 角色
         filterChainDefinitionMap.putAll(authorService.getRoleFilterMap());
-//        filterMap.put("/user/add", "perms[user:add]");
-//        filterMap.put("/user/update", "authc");
-//        filterMap.put("/user/update", "perms[user:update]");
+
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         Map<String, Filter> filterMap = new LinkedHashMap<>();

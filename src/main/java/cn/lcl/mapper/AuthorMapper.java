@@ -14,5 +14,7 @@ import java.util.Map;
 public interface AuthorMapper {
     List<Long> selectManagedUser(Long userRoleDeptId);
 
-    List<RoleApiOV> getRolePermission(Long roleId);
+    List<RoleApiOV> getRolePermission();
+
+    String getRoleInDept(Long id);
 }

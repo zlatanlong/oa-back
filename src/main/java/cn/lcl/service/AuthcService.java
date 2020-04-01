@@ -5,5 +5,5 @@ import cn.lcl.pojo.result.Result;
 import java.util.HashMap;
 
 public interface AuthcService {
-    Result loginViaPhone(HashMap<String,Object> map);
+    Result loginByPhone(HashMap<String,Object> map);
 }

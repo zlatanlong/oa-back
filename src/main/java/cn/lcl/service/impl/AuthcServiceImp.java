@@ -25,7 +25,7 @@ public class AuthcServiceImp implements AuthcService {
 
 
     @Override
-    public Result loginViaPhone(HashMap<String, Object> map) {
+    public Result loginByPhone(HashMap<String, Object> map) {
         try {
             String phone = (String) map.get("phone");
             String password = (String) map.get("password");
@@ -34,13 +34,10 @@ public class AuthcServiceImp implements AuthcService {
             Subject subject = SecurityUtils.getSubject();
 
             subject.login(token); // 执行登录的方法，如果没有异常说明没问题了
-            User user = (User) subject.getPrincipal();
-            if (user.getState()!=1) {
-                subject.logout();
-                throw new MyException((ResultEnum.USER_NOT_ACTIVE));
-            }
-            return ResultUtil.success(subject.getPrincipal());
 
+            User user = (User) subject.getPrincipal();
+
+            return ResultUtil.success(user);
 
         } catch (IncorrectCredentialsException e) {
             throw new MyException(ResultEnum.USER_PASSWORD_FAILED);
