@@ -11,6 +11,6 @@ mybatis-plus:
     - classpath*:mapper/*.xml
   global-config:
     db-config:
-      logic-delete-field: deleted
+      logic-delete-field: deleteFlg
       logic-delete-value: 1
       logic-not-delete-value: 0
