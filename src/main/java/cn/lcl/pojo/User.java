@@ -1,12 +1,19 @@
 package cn.lcl.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * user
- * @author 
+ *
+ * @author
  */
 @Data
 public class User implements Serializable {
@@ -24,6 +31,7 @@ public class User implements Serializable {
     /**
      * 学号/工号
      */
+    @NotNull
     private Integer number;
 
     /**
@@ -62,7 +70,7 @@ public class User implements Serializable {
     private String avatarUrl;
 
     /**
-     * 身份 [1'学生', 0'老师'，系主任，等] 
+     * 身份 [1'学生', 0'老师'，系主任，等]
      */
     private Byte identity;
 
@@ -93,7 +101,7 @@ public class User implements Serializable {
     /**
      * 删除标志（0表示未删除，id表示已删除）
      */
-    @TableField(select = false)
+    @TableField(select = false, fill = FieldFill.INSERT)
     private Integer deleteFlg;
 
     private static final long serialVersionUID = 1L;

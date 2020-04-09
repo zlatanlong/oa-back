@@ -1,11 +1,8 @@
 package cn.lcl.config.mybatisplus;
 
-import cn.lcl.pojo.User;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -34,6 +31,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         if (hasSetter && createTime == null) {
             this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
         }
+
+        // 删除位置0
+        this.strictInsertFill(metaObject, "deleteFlg", Integer.class, 0);
     }
 
     @Override

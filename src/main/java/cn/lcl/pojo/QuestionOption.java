@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 
 /**
  * question_option
- * @author 
+ *
+ * @author
  */
 @Data
 public class QuestionOption implements Serializable {
@@ -73,7 +74,7 @@ public class QuestionOption implements Serializable {
     /**
      * 删除标志（0表示未删除，id表示已删除）
      */
-    @TableField(select = false)
+    @TableField(select = false, fill = FieldFill.INSERT)
     private Integer deleteFlg;
 
     private static final long serialVersionUID = 1L;

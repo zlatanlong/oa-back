@@ -1,12 +1,18 @@
 package cn.lcl.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * thing_reply_file
- * @author 
+ *
+ * @author
  */
 @Data
 public class ThingReplyFile implements Serializable {
@@ -63,7 +69,7 @@ public class ThingReplyFile implements Serializable {
     /**
      * 删除标志（0表示未删除，id表示已删除）
      */
-    @TableField(select = false)
+    @TableField(select = false, fill = FieldFill.INSERT)
     private Integer deleteFlg;
 
     private static final long serialVersionUID = 1L;

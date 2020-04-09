@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 
 /**
  * question_answer
- * @author 
+ *
+ * @author
  */
 @Data
 public class QuestionAnswer implements Serializable {

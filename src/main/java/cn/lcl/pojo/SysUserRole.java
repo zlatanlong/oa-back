@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 
 /**
  * sys_user_role
- * @author 
+ *
+ * @author
  */
 @Data
 public class SysUserRole implements Serializable {
@@ -58,7 +59,7 @@ public class SysUserRole implements Serializable {
     /**
      * 删除标志（0表示未删除，id表示已删除）
      */
-    @TableField(select = false)
+    @TableField(select = false, fill = FieldFill.INSERT)
     private Integer deleteFlg;
 
     private static final long serialVersionUID = 1L;
