@@ -28,9 +28,9 @@ public class SysPermission implements Serializable {
     private String permissionName;
 
     /**
-     * 编号（需要与前端沟通一致，以显示哪些权限）
+     * 对应的前端路由
      */
-    private Integer number;
+    private String frontRoute;
 
     /**
      * 创建时间

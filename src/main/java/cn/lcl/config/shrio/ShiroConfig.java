@@ -32,9 +32,9 @@ public class ShiroConfig {
          * roles[]: 拥有所有指定角色
          */
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-//        filterChainDefinitionMap.put("/user/login", "anon");
-        filterChainDefinitionMap.put("/*", "anon");
-        // api - 角色
+        filterChainDefinitionMap.put("/user/login", "anon");
+        filterChainDefinitionMap.put("/*", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
 

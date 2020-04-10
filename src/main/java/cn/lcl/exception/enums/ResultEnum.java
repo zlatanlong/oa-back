@@ -2,25 +2,24 @@ package cn.lcl.exception.enums;
 
 public enum ResultEnum {
     /**
-     * 0-100: 用户异常
-     * 101-200: 部门异常
-     * 1001-1010: 权限异常
+     * -2 由spring 验证的字段not null
+     * 0-100: 通用异常
+     * 101-200: 用户异常
+     * 201-300: 角色权限异常
      * 定义了枚举实例，它的属性是类的私有变量，然后可以通过使用    该类的名称.枚举实例名.get(属性)
      */
-    UNKONW_ERROR(-1, "未知错误"),
     SUCCESS(0, "成功"),
-    USER_INFO_NOT_INTEGRITY(001, "用户信息不完整"),
-    USER_ACTIVE_FAIL(002, "用户激活失败"),
-    USER_NOT_FOUND(003, "用户没有找到"),
-    USER_PASSWORD_FAILED(004, "用户密码错误"),
-    USER_NOT_ACTIVE(005, "用户未激活"),
-    DEPARTMENT_REPEAT(101,"部门重复"),
-    DEPARTMENT_NO_PARENT(101,"部门重复"),
-    NOT_AUTHENTICATION(1001,"未登录"),
-    NOT_AUTHORIZATION(1002,"未授权"),
-    NOT_FOUND_THIS_URD(1003,"此部门权限不存在"),
-    NO_AUTHOR_FOR_THIS_USER(1004,"管理此用户权限不足"),
-    NOT_HAVE_THIS_URD(1005,"用户无此部门权限"),
+    UNKONW_ERROR(1, "未知错误"),
+    MISS_FIELD(2,""), // 确实字段，错误信息由外层添加
+    NOT_AUTHENTICATION(101,"未登录"),
+    USER_INFO_NOT_INTEGRITY(102, "用户信息不完整"),
+    USER_LIST_HAS_REPEAT(103, "用户列表中与已有用户有重复"),
+    USER_INSERT_FAILED(104, "用户列表中与已有用户有重复"),
+    USER_NOT_FOUND(105, "用户没有找到"),
+    USER_PASSWORD_FAILED(106, "用户密码错误"),
+    PERMISSION_NOT_FOUND(201,"此权限没有找到"),
+    ROLE_NOT_FOUND(202,"此角色没有找到"),
+    ROLE_ALREADLY_HAS_THIS_PERMISSION(203,"此角色已经有此权限"),
     ;
     private Integer code;
     private String msg;

@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface UserService {
     Result addUser(List<User> users);
+
+    User queryUserByNumber(String userNumber);
+
+    Result login(User user);
 }

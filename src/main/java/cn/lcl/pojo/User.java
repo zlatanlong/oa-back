@@ -31,7 +31,7 @@ public class User implements Serializable {
     /**
      * 学号/工号
      */
-    @NotNull
+    @NotNull(message = "用户学号不能为空")
     private Integer number;
 
     /**

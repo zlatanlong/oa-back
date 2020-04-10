@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -25,11 +26,13 @@ public class SysRolePermission implements Serializable {
     /**
      * 角色role表id
      */
+    @NotNull(message = "角色不能为空")
     private String roleId;
 
     /**
      * 权限permission表Id
      */
+    @NotNull(message = "权限不能为空")
     private Integer permissionId;
 
     /**

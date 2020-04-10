@@ -1,8 +1,11 @@
 package cn.lcl.config.mybatisplus;
 
+import cn.lcl.pojo.User;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -15,47 +18,47 @@ import java.time.LocalDateTime;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        /*
-         * 如果有的实体有createTime字段需要fill，
-         * 有的实体没有，并且添加createTime字段
-         * 还需要额外开销，
-         * 可以先进行判断
-         */
-        boolean hasSetter = metaObject.hasSetter("createTime");
 
-        /*
-         * 先看是否主动设了值
-         */
+        // create_time
+        boolean hasCreateTime = metaObject.hasSetter("createTime");
         Object createTime = this.getFieldValByName("createTime", metaObject);
 
-        if (hasSetter && createTime == null) {
+        if (hasCreateTime && createTime == null) {
             this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
         }
 
-        // 删除位置0
-        this.strictInsertFill(metaObject, "deleteFlg", Integer.class, 0);
+        // delete_flg
+        boolean hasDeleteFlg = metaObject.hasSetter("deleteFlg");
+        if (hasDeleteFlg) {
+            this.strictInsertFill(metaObject, "deleteFlg", Integer.class, 0);
+        }
+
+        // creator_id
+        boolean hasCreatorId = metaObject.hasSetter("creatorId");
+        if (hasCreatorId) {
+            Subject subject = SecurityUtils.getSubject();
+            User user = (User) subject.getPrincipal();
+            this.strictInsertFill(metaObject, "creatorId", Integer.class, user.getId());
+        }
+
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("==============execute update fill============");
 
-        boolean hasSetter = metaObject.hasSetter("updateTime");
-
-        if (hasSetter) {
+        // update_time
+        boolean hasUpdateTime = metaObject.hasSetter("updateTime");
+        if (hasUpdateTime) {
             this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
         }
 
-//
-//        boolean hasSetter = metaObject.hasSetter("operateUserId");
-//        if (hasSetter) {
-//            Subject subject = SecurityUtils.getSubject();
-//            if (subject.isAuthenticated()) {
-//                User user = (User) subject.getPrincipal();
-//                this.strictUpdateFill(metaObject, "operateUserId", Long.class, user.getId());
-//            }
-//        }
+        // updator_id
+        boolean hasUpdatorId = metaObject.hasSetter("updatorId");
+        if (hasUpdatorId) {
+            Subject subject = SecurityUtils.getSubject();
+            User user = (User) subject.getPrincipal();
+            this.strictUpdateFill(metaObject, "updatorId", Integer.class, user.getId());
+        }
 
-//        this.strictUpdateFill(metaObject, "updatedTime", LocalDateTime.class, LocalDateTime.now());
     }
 }
