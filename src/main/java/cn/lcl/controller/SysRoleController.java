@@ -32,9 +32,20 @@ public class SysRoleController {
         return ResultUtil.vaildFieldError(result, () -> sysRoleService.addPermissionOnRole(rolePermission));
     }
 
+    @PostMapping("/delPermission")
+    public Result delPermission(@RequestBody @Valid SysRolePermission rolePermission,
+                                BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> sysRoleService.delPermissionOnRole(rolePermission));
+    }
+
     @PostMapping("/getRoles")
     public Result getRoles() {
         return sysRoleService.getRoles();
+    }
+
+    @PostMapping("/getRole")
+    public Result getRole(@RequestBody SysRole sysRole) {
+        return sysRoleService.getRole(sysRole);
     }
 
 }

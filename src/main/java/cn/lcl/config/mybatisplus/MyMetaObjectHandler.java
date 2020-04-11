@@ -1,11 +1,10 @@
 package cn.lcl.config.mybatisplus;
 
 import cn.lcl.pojo.User;
+import cn.lcl.util.AuthcUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -36,8 +35,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         // creator_id
         boolean hasCreatorId = metaObject.hasSetter("creatorId");
         if (hasCreatorId) {
-            Subject subject = SecurityUtils.getSubject();
-            User user = (User) subject.getPrincipal();
+            User user = AuthcUtil.getUser();
             this.strictInsertFill(metaObject, "creatorId", Integer.class, user.getId());
         }
 
@@ -55,8 +53,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         // updator_id
         boolean hasUpdatorId = metaObject.hasSetter("updatorId");
         if (hasUpdatorId) {
-            Subject subject = SecurityUtils.getSubject();
-            User user = (User) subject.getPrincipal();
+            User user = AuthcUtil.getUser();
             this.strictUpdateFill(metaObject, "updatorId", Integer.class, user.getId());
         }
 

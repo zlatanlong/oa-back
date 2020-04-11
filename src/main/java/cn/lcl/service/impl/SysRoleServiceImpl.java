@@ -11,6 +11,8 @@ import cn.lcl.pojo.SysRolePermission;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.SysRoleService;
 import cn.lcl.util.ResultUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +55,14 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public Result delPermissionOnRole(SysRolePermission sysRolePermission) {
-        return null;
+        LambdaQueryWrapper<SysRolePermission> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SysRolePermission::getPermissionId, sysRolePermission.getPermissionId())
+                .eq(SysRolePermission::getRoleId, sysRolePermission.getRoleId());
+        int delete = sysRolePermissionMapper.delete(queryWrapper);
+        if (delete != 1) {
+            throw new MyException(ResultEnum.DELETE_ROLE_PERMISSION_FAILED);
+        }
+        return ResultUtil.success(delete);
     }
 
     @Override
@@ -62,9 +71,13 @@ public class SysRoleServiceImpl implements SysRoleService {
         return ResultUtil.success(role);
     }
 
-
     @Override
     public Result getRoles() {
         return ResultUtil.success(new LambdaQueryChainWrapper<>(sysRoleMapper).list());
+    }
+
+    @Override
+    public Result getRole(SysRole sysRole) {
+        return ResultUtil.success(sysRoleMapper.selectById(sysRole.getId()));
     }
 }

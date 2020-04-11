@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 /**
  * user
@@ -102,7 +105,14 @@ public class User implements Serializable {
      * 删除标志（0表示未删除，id表示已删除）
      */
     @TableField(select = false, fill = FieldFill.INSERT)
+    @JsonIgnore
     private Integer deleteFlg;
+
+    @TableField(exist = false)
+    private List<SysRole> roleList;
+
+    @TableField(exist = false)
+    private Set<SysPermission> permissionSet;
 
     private static final long serialVersionUID = 1L;
 }

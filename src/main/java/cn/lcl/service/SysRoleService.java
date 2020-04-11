@@ -13,4 +13,6 @@ public interface SysRoleService {
     Result addRole(SysRole role);
 
     Result getRoles();
+
+    Result getRole(SysRole sysRole);
 }

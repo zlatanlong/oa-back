@@ -19,6 +19,8 @@ public enum ResultEnum {
     USER_PASSWORD_FAILED(106, "用户密码错误"),
     PERMISSION_NOT_FOUND(201,"此权限没有找到"),
     ROLE_NOT_FOUND(202,"此角色没有找到"),
+    DELETE_ROLE_PERMISSION_FAILED(203,"删除此角色的此权限失败"),
+    DELETE_USER_ROLE_FAILED(204,"删除此用户的此角色失败"),
     ROLE_ALREADLY_HAS_THIS_PERMISSION(203,"此角色已经有此权限"),
     ;
     private Integer code;

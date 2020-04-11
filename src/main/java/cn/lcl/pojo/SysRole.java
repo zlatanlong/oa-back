@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * sys_role
@@ -57,7 +59,12 @@ public class SysRole implements Serializable {
      * 删除标志（0表示未删除，id表示已删除）
      */
     @TableField(select = false, fill = FieldFill.INSERT)
+    @JsonIgnore
     private Integer deleteFlg;
+
+    // 一对多
+    @TableField(exist = false, select = false)
+    private List<SysPermission> permissionList;
 
     private static final long serialVersionUID = 1L;
 }

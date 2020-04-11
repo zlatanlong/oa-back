@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -25,11 +27,13 @@ public class SysUserRole implements Serializable {
     /**
      * user表自增id
      */
+    @NotNull
     private Integer userId;
 
     /**
      * role表id
      */
+    @NotNull
     private Integer roleId;
 
     /**
@@ -60,6 +64,7 @@ public class SysUserRole implements Serializable {
      * 删除标志（0表示未删除，id表示已删除）
      */
     @TableField(select = false, fill = FieldFill.INSERT)
+    @JsonIgnore
     private Integer deleteFlg;
 
     private static final long serialVersionUID = 1L;

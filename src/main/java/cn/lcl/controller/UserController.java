@@ -1,5 +1,6 @@
 package cn.lcl.controller;
 
+import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
@@ -21,13 +22,40 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @PostMapping
+    public Result getUser() {
+        return userService.getUser();
+    }
+
     @PostMapping("/addUsers")
     public Result addUsers(@RequestBody List<User> users) {
-        return userService.addUser(users);
+        return userService.addUsers(users);
     }
 
     @PostMapping("/login")
     public Result login(@RequestBody @Valid User user, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> userService.login(user));
     }
+
+    @PostMapping("/logout")
+    public Result logout() {
+        return userService.logout();
+    }
+
+    @PostMapping("/addRole")
+    public Result addRole(@RequestBody @Valid SysUserRole userRole, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> userService.addRole(userRole));
+    }
+
+    @PostMapping("/delRole")
+    public Result delRole(@RequestBody @Valid SysUserRole userRole, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> userService.delRole(userRole));
+    }
+
+    @PostMapping("/getRoles")
+    public Result getRoles() {
+        return ResultUtil.success(userService.getRoles());
+    }
+
+
 }
