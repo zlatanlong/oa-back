@@ -1,5 +1,6 @@
 package cn.lcl.service;
 
+import cn.lcl.dto.DataPageDTO;
 import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
@@ -22,5 +23,7 @@ public interface UserService {
     Result delRole(SysUserRole userRole);
 
     Result getRoles();
+
+    Result getUsers(DataPageDTO<User> DataPageDTO);
 
 }

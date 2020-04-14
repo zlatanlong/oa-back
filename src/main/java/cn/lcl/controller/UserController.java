@@ -1,5 +1,6 @@
 package cn.lcl.controller;
 
+import cn.lcl.dto.DataPageDTO;
 import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
@@ -55,6 +56,11 @@ public class UserController {
     @PostMapping("/getRoles")
     public Result getRoles() {
         return ResultUtil.success(userService.getRoles());
+    }
+
+    @PostMapping("/getUsers")
+    public Result getUsers(@RequestBody DataPageDTO<User> dataPageDTO) {
+        return ResultUtil.success(userService.getUsers(dataPageDTO));
     }
 
 

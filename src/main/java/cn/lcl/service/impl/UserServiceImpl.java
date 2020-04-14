@@ -1,5 +1,6 @@
 package cn.lcl.service.impl;
 
+import cn.lcl.dto.DataPageDTO;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.SysUserRoleMapper;
@@ -11,10 +12,14 @@ import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
 import cn.lcl.util.AuthcUtil;
+import cn.lcl.util.FieldStringUtil;
 import cn.lcl.util.ResultUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -26,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -124,6 +130,29 @@ public class UserServiceImpl implements UserService {
         getRolesAndPermissions(user);
         return ResultUtil.success(user);
     }
+
+    @Override
+    public Result getUsers(DataPageDTO<User> dataPageDTO) {
+        User user = dataPageDTO.getData();
+        QueryWrapper<User> query = Wrappers.query();
+        Map<String, String> map = null;
+        try {
+            map = BeanUtils.describe(user);
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (entry.getValue() != null) {
+                    query.like(FieldStringUtil.HumpToUnderline(entry.getKey()), entry.getValue());
+                }
+            }
+            return ResultUtil.success(userMapper.selectPage(
+                    new Page<>(dataPageDTO.getPageCurrent(), dataPageDTO.getPageSize()), query));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new MyException(ResultEnum.USERS_FIND_ERROR);
+
+        }
+
+    }
+
 
     private void getRolesAndPermissions(User user) {
         List<SysRole> userRoleList = sysUserRoleMapper.getUserRoleList(user.getId());

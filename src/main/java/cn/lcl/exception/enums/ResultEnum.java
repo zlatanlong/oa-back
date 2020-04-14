@@ -17,6 +17,7 @@ public enum ResultEnum {
     USER_INSERT_FAILED(104, "用户列表中与已有用户有重复"),
     USER_NOT_FOUND(105, "用户没有找到"),
     USER_PASSWORD_FAILED(106, "用户密码错误"),
+    USERS_FIND_ERROR(107, "用户密码错误"),
     PERMISSION_NOT_FOUND(201,"此权限没有找到"),
     ROLE_NOT_FOUND(202,"此角色没有找到"),
     DELETE_ROLE_PERMISSION_FAILED(203,"删除此角色的此权限失败"),
