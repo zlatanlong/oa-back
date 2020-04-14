@@ -18,7 +18,7 @@ public class ShiroConfig {
     // 请求在这里拦截
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(
-            @Qualifier("securityManager") DefaultWebSecurityManager defaultWebSecurityManager){
+            @Qualifier("securityManager") DefaultWebSecurityManager defaultWebSecurityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
 
         // 关联Manager
@@ -49,7 +49,7 @@ public class ShiroConfig {
 
     // 2. DafaultWebSecurityManger
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm){
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(@Qualifier("userRealm") UserRealm userRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         // 关联userRealm
         securityManager.setRealm(userRealm);

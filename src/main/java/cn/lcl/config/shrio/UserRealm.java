@@ -32,6 +32,7 @@ public class UserRealm extends AuthorizingRealm {
 
     /**
      * 认证
+     *
      * @param authenticationToken 从上下文中传递的token（可以自定义）
      * @return 一个info对象传递回给shiro
      * @throws AuthenticationException 认证异常

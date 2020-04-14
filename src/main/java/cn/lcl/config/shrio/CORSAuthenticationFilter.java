@@ -17,7 +17,6 @@ public class CORSAuthenticationFilter extends FormAuthenticationFilter {
     }
 
 
-
     @Override
     public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         //Always return true if the request's method is OPTIONS

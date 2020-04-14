@@ -36,6 +36,7 @@ public class ResultUtil {
 
     /**
      * 此方法是springboot valid的字段验证
+     *
      * @param bindingResult springboot的验证结果
      * @param serviceMethod 验证成功后执行的业务逻辑
      * @return 验证失败的处理结果或验证成功的 successResult

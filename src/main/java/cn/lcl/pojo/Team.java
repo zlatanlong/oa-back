@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,6 +28,7 @@ public class Team implements Serializable {
     /**
      * 小组名称
      */
+    @NotNull(message = "小组名称不能为空")
     private String teamName;
 
     /**
@@ -36,6 +39,7 @@ public class Team implements Serializable {
     /**
      * 公有标识1；私有标识0
      */
+    @NotNull(message = "是否为共有标志不能为空")
     private Byte publicState;
 
     /**
@@ -68,6 +72,10 @@ public class Team implements Serializable {
     @TableField(select = false, fill = FieldFill.INSERT)
     @JsonIgnore
     private Integer deleteFlg;
+
+    // 一个小组的成员可能很多，这里直接分页
+    @TableField(exist = false, select = false)
+    private Page<User> membersPage;
 
     private static final long serialVersionUID = 1L;
 }

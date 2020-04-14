@@ -8,7 +8,7 @@ public class AuthcUtil {
 
     public static User getUser() {
         Subject subject = SecurityUtils.getSubject();
-        return  (User) subject.getPrincipal();
+        return (User) subject.getPrincipal();
     }
 
 }

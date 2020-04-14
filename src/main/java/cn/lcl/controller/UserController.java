@@ -59,8 +59,8 @@ public class UserController {
     }
 
     @PostMapping("/getUsers")
-    public Result getUsers(@RequestBody DataPageDTO<User> dataPageDTO) {
-        return ResultUtil.success(userService.getUsers(dataPageDTO));
+    public Result getUsers(@RequestBody @Valid DataPageDTO<User> dataPageDTO, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> userService.getUsers(dataPageDTO));
     }
 
 

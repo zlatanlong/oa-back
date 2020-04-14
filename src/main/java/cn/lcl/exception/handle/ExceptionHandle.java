@@ -14,6 +14,7 @@ public class ExceptionHandle {
 
     /**
      * 捕获Exception异常，返回Result
+     *
      * @param e 将异常上转型接受
      * @return
      */

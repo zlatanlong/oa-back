@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,11 +27,13 @@ public class TeamMember implements Serializable {
     /**
      * 小组id
      */
+    @NotNull(message = "小组id不能为空")
     private Integer teamId;
 
     /**
      * 成员在user表的id
      */
+    @NotNull(message = "用户id不能为空")
     private Integer userId;
 
     /**
