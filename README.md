@@ -1,36 +1,29 @@
 # OA系统后端项目
-由于用户可能具有多角色，每次登陆后需选择一个角色，这个角色作为当前操作的权限判断。
-## 3.22日
-- [x] pojo
-- [x] 初始化
-## 3.23日
-- [x] 添加部门
-## 3.24日
-- [x] 添加用户
-- [x] 添加职务
-- [x] 添加部门
-- [x] 激活用户
-## 3.25日
-- [x] 异常处理
-- [x] 统一返回格式
-## 3.26日
-- [x] 查找管理员管理的人
-
-## 3.28日
-- [x] 整合shiro认证部分
-## 3.30日
-- [x] 通过shiro获取信息
-- [x] 通过shiro拦截只激活的人
-## 3.31日
-- [x] 自定义拦截器
-- [x] 通过shiro鉴权角色
-## 3.31日
-- [x] 通过shiro鉴权+部门检测+返回
----
+所有请求全部使用post
 ## 4.8日更新了需求 前面写的废弃
 ## 4.10日
 - [x] 登录整合shiro
-- [x] 添加用户
-- [x] 权限接口
-- [x] 添加角色
-- [x] 为某个角色添加权限
+- [x] Post	/permissions  			获取所有权限
+- [x] Post	/role  					创建角色（角色和角色对应的权限）
+- [x] Post	/role/addPermission		角色-权限新增
+- [x] Post	/role/delPermission		角色-权限删除
+- [x] Post	/role/getRoles			获取所有角色
+- [x] Post	/role/get				获取某个角色以及对应的权限
+- [x] Post	/user/addRole			用户-角色配置/新增
+- [x] Post	/user/delRole			用户-角色删除
+- [x] Post	/user/getRoles			获取某个用户的所有角色
+## 4.11日
+- [x] Post	/user/addUsers		传用户对象数组新增用户
+- [x] Post	/user/getUsers		获取用户列表 （多条件模糊查询）
+- [x] Post	/user/login		学号密码登录
+- [x] Post	/user/logout		退出
+## 4.14日
+- [x] Post	/team/add				创建小组（小组基本信息，父级和对应的用户）
+- [x] Post	/team/addMember		添加成员
+- [x] Post	/team/delMember		删除成员
+- [x] Post	/team/update			修改小组基本信息
+- [x] Post	/team/del				删除小组（小组和小组对应的成员逻辑上级联删除）
+- [x] Post	/team/			获取某一个小组所有信息（基本信息，成员）
+- [x] Post	/team/createdList		根据当前用户查找所有该用户创建的小组列表
+- [x] Post	/team/joinedList  		根据当前用户查找所有该用户参加的小组列表
+- [x] Post	/user/getUsers		获取用户列表 （多条件模糊查询）
