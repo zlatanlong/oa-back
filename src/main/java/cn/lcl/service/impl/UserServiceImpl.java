@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             if (eq != null) {
                 throw new MyException(ResultEnum.USER_LIST_HAS_REPEAT);
             }
-            user.setPassword(String.valueOf(user.getNumber()));
+            user.setPassword(user.getNumber());
             int insert = userMapper.insert(user);
             if (insert != 1) {
                 throw new MyException(ResultEnum.USER_INSERT_FAILED);

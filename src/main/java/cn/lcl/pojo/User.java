@@ -35,7 +35,7 @@ public class User implements Serializable {
      * 学号/工号
      */
     @NotNull(message = "用户学号不能为空")
-    private Integer number;
+    private String number;
 
     /**
      * 初试密码为学号
