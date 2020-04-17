@@ -69,6 +69,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Result getUser(Integer uid) {
+        User user = userMapper.selectById(uid);
+        getRolesAndPermissions(user);
+        return ResultUtil.success(user);
+    }
+
+    @Override
     public User queryUserByNumber(String userNumber) {
         return new LambdaQueryChainWrapper<User>(userMapper).eq(User::getNumber, userNumber).one();
     }

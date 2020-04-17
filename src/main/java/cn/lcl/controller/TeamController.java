@@ -1,7 +1,8 @@
 package cn.lcl.controller;
 
 import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamMembersUpdateDTO;
+import cn.lcl.dto.TeamAddDTO;
+import cn.lcl.dto.TeamMembersDTO;
 import cn.lcl.pojo.Team;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.TeamService;
@@ -23,17 +24,17 @@ public class TeamController {
     TeamService service;
 
     @PostMapping("/add")
-    public Result addTeam(@RequestBody @Valid Team team, BindingResult result) {
+    public Result addTeam(@RequestBody @Valid TeamAddDTO team, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> service.addTeam(team));
     }
 
     @PostMapping("/addMember")
-    public Result addTeamMember(@RequestBody @Valid TeamMembersUpdateDTO teamMembers, BindingResult result) {
+    public Result addTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> service.addTeamMember(teamMembers));
     }
 
     @PostMapping("/delMember")
-    public Result delTeamMember(@RequestBody @Valid TeamMembersUpdateDTO teamMembers, BindingResult result) {
+    public Result delTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> service.delTeamMember(teamMembers));
     }
 

@@ -1,17 +1,18 @@
 package cn.lcl.service;
 
 import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamMembersUpdateDTO;
+import cn.lcl.dto.TeamAddDTO;
+import cn.lcl.dto.TeamMembersDTO;
 import cn.lcl.pojo.Team;
 import cn.lcl.pojo.result.Result;
 
 public interface TeamService {
 
-    Result addTeam(Team team);
+    Result addTeam(TeamAddDTO team);
 
-    Result addTeamMember(TeamMembersUpdateDTO teamMembers);
+    Result addTeamMember(TeamMembersDTO teamMembers);
 
-    Result delTeamMember(TeamMembersUpdateDTO teamMembers);
+    Result delTeamMember(TeamMembersDTO teamMembers);
 
     /**
      * 只更新基本信息

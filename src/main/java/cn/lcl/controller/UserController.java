@@ -1,6 +1,7 @@
 package cn.lcl.controller;
 
 import cn.lcl.dto.DataPageDTO;
+import cn.lcl.dto.IdDTO;
 import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
@@ -26,6 +27,11 @@ public class UserController {
     @PostMapping
     public Result getUser() {
         return userService.getUser();
+    }
+
+    @PostMapping("/get")
+    public Result getUser(@RequestBody IdDTO idDTO, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> userService.getUser(idDTO.getId()));
     }
 
     @PostMapping("/addUsers")

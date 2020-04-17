@@ -12,6 +12,8 @@ public interface UserService {
 
     Result getUser();
 
+    Result getUser(Integer uid);
+
     User queryUserByNumber(String userNumber);
 
     Result login(User user);

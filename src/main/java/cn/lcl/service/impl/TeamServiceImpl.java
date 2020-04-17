@@ -1,7 +1,8 @@
 package cn.lcl.service.impl;
 
 import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamMembersUpdateDTO;
+import cn.lcl.dto.TeamAddDTO;
+import cn.lcl.dto.TeamMembersDTO;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.TeamMapper;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -32,18 +34,33 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     UserMapper userMapper;
 
-
+    @Transactional
     @Override
-    public Result addTeam(Team team) {
+    public Result addTeam(TeamAddDTO team) {
         User user = AuthcUtil.getUser();
-        team.setManagerId(user.getId());
-        teamMapper.insert(team);
-        return ResultUtil.success(team);
+        Team resultTeam = new Team();
+        resultTeam.setManagerId(user.getId());
+        resultTeam.setTeamName(team.getTeamName());
+        resultTeam.setPublicState(team.getPublicState());
+        teamMapper.insert(resultTeam);
+        if (team.getMemberIdList() != null) {
+            HashSet<Integer> ids = new HashSet<>(team.getMemberIdList());
+            for (Integer id : ids) {
+                TeamMember teamMember = new TeamMember();
+                teamMember.setTeamId(resultTeam.getId());
+                teamMember.setUserId(id);
+                int insert = teamMemberMapper.insert(teamMember);
+                if (insert != 1) {
+                    throw new MyException(ResultEnum.TEAM_MEMBER_INSERT_ERROR);
+                }
+            }
+        }
+        return ResultUtil.success(resultTeam);
     }
 
     @Transactional
     @Override
-    public Result addTeamMember(TeamMembersUpdateDTO teamMembers) {
+    public Result addTeamMember(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {
@@ -64,7 +81,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result delTeamMember(TeamMembersUpdateDTO teamMembers) {
+    public Result delTeamMember(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {
