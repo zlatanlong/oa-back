@@ -27,3 +27,9 @@
 - [x] Post	/team/createdList		根据当前用户查找所有该用户创建的小组列表
 - [x] Post	/team/joinedList  		根据当前用户查找所有该用户参加的小组列表
 - [x] Post	/user/getUsers		获取用户列表 （多条件模糊查询）
+## 4.18日
+- [x] Post	/tag				创建标签（基本信息，父标签）
+- [x] Post	/tag/update		修改标签
+- [x] Post	/tag/del			删除标签, 一般不建议（实现优先级10）
+- [x] Post	/tag/tags			根据用户查询标签列表（个人的私有和全部共有，和对应的父级，这是一个树形对象）
+- [x] Post	/tag/createdTags	某个用户创建的标签（是一个列表，因为可能是树上的某几片叶子无法构成树）
