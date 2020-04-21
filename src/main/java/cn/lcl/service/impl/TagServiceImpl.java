@@ -61,16 +61,15 @@ public class TagServiceImpl implements TagService {
     @Override
     public Result getAvailableTags() {
         User user = AuthcUtil.getUser();
-        List<Tag> tagList = new LambdaQueryChainWrapper<>(tagMapper).eq(Tag::getManagerId, user)
+        List<Tag> tagList = new LambdaQueryChainWrapper<>(tagMapper).eq(Tag::getManagerId, user.getId())
                 .or().eq(Tag::getPublicState, 1).list();
+
         List<TagTreeNode> roots = new ArrayList<>();
         Iterator<Tag> iterator = tagList.iterator();
         while (iterator.hasNext()) {
             Tag tempTag = iterator.next();
             if (tempTag.getLevel() == 0) {
-                TagTreeNode tagTreeNode = new TagTreeNode();
-                tagTreeNode.setTitle(tempTag.getTagName());
-                tagTreeNode.setKey(tempTag.getId());
+                TagTreeNode tagTreeNode = getNodeByTag(tempTag);
                 roots.add(tagTreeNode);
                 iterator.remove();
             }
@@ -93,7 +92,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Result updateTag(Tag tag) {
         if (tag.getId() == null) {
-            throw new MyException(ResultEnum.USER_INFO_NOT_INTEGRITY);
+            throw new MyException(ResultEnum.MISS_FIELD);
         }
         Tag tempTag = new Tag();
         tempTag.setId(tag.getId());
@@ -122,9 +121,7 @@ public class TagServiceImpl implements TagService {
         while (iterator.hasNext()) {
             Tag tempTag = iterator.next();
             if (tempTag.getParentId().equals(node.getKey())) {
-                TagTreeNode tagTreeNode = new TagTreeNode();
-                tagTreeNode.setTitle(tempTag.getTagName());
-                tagTreeNode.setKey(tempTag.getId());
+                TagTreeNode tagTreeNode = getNodeByTag(tempTag);
                 node.addChild(tagTreeNode);
                 iterator.remove();
             }
@@ -138,5 +135,13 @@ public class TagServiceImpl implements TagService {
                 addNodeToTree(child, list);
             }
         }
+    }
+
+    private TagTreeNode getNodeByTag(Tag tag) {
+        TagTreeNode tagTreeNode = new TagTreeNode();
+        tagTreeNode.setTitle(tag.getTagName());
+        tagTreeNode.setKey(tag.getId());
+        tagTreeNode.setPublicState(Integer.valueOf(tag.getPublicState()));
+        return tagTreeNode;
     }
 }

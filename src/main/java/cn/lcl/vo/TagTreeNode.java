@@ -12,6 +12,8 @@ public class TagTreeNode {
 
     private Integer key;
 
+    private Integer publicState;
+
     private List<TagTreeNode> children;
 
     public void addChild(TagTreeNode tagTreeNode) {
