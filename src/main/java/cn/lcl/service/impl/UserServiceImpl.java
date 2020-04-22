@@ -143,6 +143,8 @@ public class UserServiceImpl implements UserService {
         User user = dataPageDTO.getData();
         QueryWrapper<User> query = Wrappers.query();
         Map<String, String> map = null;
+        // user may have some null field, so we should filter the null field
+        // and search by the notnull field and its values
         try {
             map = BeanUtils.describe(user);
             for (Map.Entry<String, String> entry : map.entrySet()) {

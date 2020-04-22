@@ -20,7 +20,7 @@ public class FileUtil {
      * @param newDirUrl 新建的文件夹
      * @return
      */
-    public static String upload(MultipartFile file, String newDirUrl) {
+    public static String upload(MultipartFile file, String newDirUrl) throws IOException {
         // 获取文件名
         String fileName = file.getOriginalFilename();
         // 获取后缀
@@ -36,19 +36,15 @@ public class FileUtil {
         File dest = new File(fileName);
         // 创建路径
         if (!dest.getParentFile().exists()) {
-            boolean mkdir = dest.getParentFile().mkdir();
+            boolean mkdir = dest.getParentFile().mkdirs();
         }
-        try {
-            file.transferTo(dest);
-            return url;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        file.transferTo(dest);
+        return url;
     }
 
+
     // 重载
-    public static String upload(MultipartFile file) {
+    public static String upload(MultipartFile file) throws IOException {
         return upload(file, "");
     }
 

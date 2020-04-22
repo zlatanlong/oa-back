@@ -14,9 +14,9 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true) // callSuper是在验证equals时是否比较父类的field
 @Data
-public class ThingDTO extends Thing {
+public class ThingAddDTO extends Thing {
 
-    @NotEmpty(message = "事务接受者不能为空")
+    @NotEmpty(message = "receiverIds not null")
     private Integer[] receiverIds;
 
     @NotNull(message = "tagId not null")

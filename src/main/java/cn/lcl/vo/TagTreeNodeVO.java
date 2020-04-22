@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class TagTreeNode {
+public class TagTreeNodeVO {
 
     private String title;
 
@@ -14,9 +14,9 @@ public class TagTreeNode {
 
     private Integer publicState;
 
-    private List<TagTreeNode> children;
+    private List<TagTreeNodeVO> children;
 
-    public void addChild(TagTreeNode tagTreeNode) {
+    public void addChild(TagTreeNodeVO tagTreeNode) {
         if (children == null) {
             children = new ArrayList<>();
         }

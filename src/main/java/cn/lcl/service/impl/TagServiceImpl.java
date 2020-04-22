@@ -9,7 +9,7 @@ import cn.lcl.pojo.result.Result;
 import cn.lcl.service.TagService;
 import cn.lcl.util.AuthcUtil;
 import cn.lcl.util.ResultUtil;
-import cn.lcl.vo.TagTreeNode;
+import cn.lcl.vo.TagTreeNodeVO;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,17 +64,17 @@ public class TagServiceImpl implements TagService {
         List<Tag> tagList = new LambdaQueryChainWrapper<>(tagMapper).eq(Tag::getManagerId, user.getId())
                 .or().eq(Tag::getPublicState, 1).list();
 
-        List<TagTreeNode> roots = new ArrayList<>();
+        List<TagTreeNodeVO> roots = new ArrayList<>();
         Iterator<Tag> iterator = tagList.iterator();
         while (iterator.hasNext()) {
             Tag tempTag = iterator.next();
             if (tempTag.getLevel() == 0) {
-                TagTreeNode tagTreeNode = getNodeByTag(tempTag);
+                TagTreeNodeVO tagTreeNode = getNodeByTag(tempTag);
                 roots.add(tagTreeNode);
                 iterator.remove();
             }
         }
-        for (TagTreeNode root : roots) {
+        for (TagTreeNodeVO root : roots) {
             addNodeToTree(root, tagList);
         }
 
@@ -116,12 +116,12 @@ public class TagServiceImpl implements TagService {
      * @param node 树的一个根，从这个根开始找所有子节点
      * @param list 从数据库查找的tag list
      */
-    private void addNodeToTree(TagTreeNode node, List<Tag> list) {
+    private void addNodeToTree(TagTreeNodeVO node, List<Tag> list) {
         Iterator<Tag> iterator = list.iterator();
         while (iterator.hasNext()) {
             Tag tempTag = iterator.next();
             if (tempTag.getParentId().equals(node.getKey())) {
-                TagTreeNode tagTreeNode = getNodeByTag(tempTag);
+                TagTreeNodeVO tagTreeNode = getNodeByTag(tempTag);
                 node.addChild(tagTreeNode);
                 iterator.remove();
             }
@@ -129,7 +129,7 @@ public class TagServiceImpl implements TagService {
         if (list.size() == 0) {
             return;
         }
-        for (TagTreeNode child : node.getChildren()) {
+        for (TagTreeNodeVO child : node.getChildren()) {
             // 如果儿子还有儿子，进入递归。
             if (hasChild(child.getKey(), list)) {
                 addNodeToTree(child, list);
@@ -137,8 +137,8 @@ public class TagServiceImpl implements TagService {
         }
     }
 
-    private TagTreeNode getNodeByTag(Tag tag) {
-        TagTreeNode tagTreeNode = new TagTreeNode();
+    private TagTreeNodeVO getNodeByTag(Tag tag) {
+        TagTreeNodeVO tagTreeNode = new TagTreeNodeVO();
         tagTreeNode.setTitle(tag.getTagName());
         tagTreeNode.setKey(tag.getId());
         tagTreeNode.setPublicState(Integer.valueOf(tag.getPublicState()));

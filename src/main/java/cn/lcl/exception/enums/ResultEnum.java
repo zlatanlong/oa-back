@@ -7,11 +7,13 @@ public enum ResultEnum {
      * 201-300: 角色权限异常
      * 301-400: 小组权限异常
      * 401-500: 标签异常
+     * 501-600: 事务一场
      * 定义了枚举实例，它的属性是类的私有变量，然后可以通过使用    该类的名称.枚举实例名.get(属性)
      */
     SUCCESS(0, "成功"),
     UNKONW_ERROR(1, "未知错误"),
     MISS_FIELD(2, ""), // 确实字段，错误信息由外层添加
+    FILE_UPLOAD_FAILED(3, "文件上传失败"), // 确实字段，错误信息由外层添加
     NOT_AUTHENTICATION(101, "未登录"),
     USER_INFO_NOT_INTEGRITY(102, "用户信息不完整"),
     USER_LIST_HAS_REPEAT(103, "用户列表中与已有用户有重复"),
@@ -30,6 +32,9 @@ public enum ResultEnum {
     TEAM_MEMBER_DELETE_ERROR(304, "此小组用户对应关系删除失败"),
     TEAM_NOT_FOUND(305, "小组没有找到"),
     TEAM_UPDATE_FAILED(306, "小组更新失败"),
+    THING_NOT_FOUND(501,"事务未找到"),
+    THING_HAS_REPLYED(502,"事务已经回执"),
+    THING_AND_RECEIVER_NOT_FOUND(503,"事务接受者关系未找到")
     ;
     private Integer code;
     private String msg;

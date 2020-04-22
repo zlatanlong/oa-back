@@ -1,20 +1,20 @@
 package cn.lcl.dto;
 
-import cn.lcl.pojo.ThingReplyFile;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
 public class ThingReplyDTO {
 
+    @NotNull(message = "thingId not null")
     private Integer thingId;
 
     private String content;
 
     // 用户上传的文件
-    private List<ThingReplyFile> replyFiles;
-
-
+    private List<MultipartFile> files;
 
 }

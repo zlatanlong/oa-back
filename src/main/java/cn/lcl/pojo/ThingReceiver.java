@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,11 +27,13 @@ public class ThingReceiver implements Serializable {
     /**
      * 事务id
      */
+    @NotNull(message = "thingId not null")
     private Integer thingId;
 
     /**
      * 接收者在user表对应的Id
      */
+    @NotNull(message = "userId not null")
     private Integer userId;
 
     /**
@@ -78,6 +81,9 @@ public class ThingReceiver implements Serializable {
     @TableField(select = false, fill = FieldFill.INSERT)
     @JsonIgnore
     private Integer deleteFlg;
+
+    @TableField(exist = false)
+    private Thing thing;
 
     private static final long serialVersionUID = 1L;
 }
