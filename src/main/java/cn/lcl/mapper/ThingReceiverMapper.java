@@ -10,5 +10,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface ThingReceiverMapper extends BaseMapper<ThingReceiver> {
-    Page<ThingReceiver> getThingReceiversByUserId(Page<?> page, Integer userId);
+    Page<ThingReceiver> selectThingReceiversByReceiverId(Page<?> page, Integer userId, ThingReceiver thingReceiver);
+
+    Page<ThingReceiver> selectThingReceiversAndUserRealNamePageByThingId(Page<?> page, ThingReceiver thingReceiver);
+
+    ThingReceiver selectThingReceiverAndUserRealNamePage(Integer thingId,Integer userId);
+
+
+
 }

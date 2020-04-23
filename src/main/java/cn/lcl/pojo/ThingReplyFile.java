@@ -36,7 +36,7 @@ public class ThingReplyFile implements Serializable {
     /**
      * 文件存储的ip地址（记得给附件加上随机前缀）
      */
-    private String fileIp;
+    private String fileUrl;
 
     /**
      * 回执者在user表的id

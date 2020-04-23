@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ThingReplyVO {
+public class ThingRepliedVO {
     // 1.content
     private ThingReceiver thingReceiver;
     // 2.reply files

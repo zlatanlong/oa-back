@@ -1,5 +1,6 @@
 package cn.lcl.dto;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -14,4 +15,8 @@ public class DataPageDTO<T> {
     Integer pageSize;
 
     T data;
+
+    public <E> Page<E> getParamPage() {
+        return new Page<>(pageCurrent, pageSize);
+    }
 }

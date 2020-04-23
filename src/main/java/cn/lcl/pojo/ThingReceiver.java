@@ -39,7 +39,7 @@ public class ThingReceiver implements Serializable {
     /**
      * 是否阅读了该事务（1已阅读；0未阅读）
      */
-    private String hasReader;
+    private String hasRead;
 
     /**
      * 回执文字
@@ -84,6 +84,9 @@ public class ThingReceiver implements Serializable {
 
     @TableField(exist = false)
     private Thing thing;
+
+    @TableField(exist = false)
+    private String realName;
 
     private static final long serialVersionUID = 1L;
 }

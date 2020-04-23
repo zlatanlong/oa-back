@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * thing
@@ -43,12 +44,12 @@ public class Thing implements Serializable {
     /**
      * 开始时间
      */
-    private LocalDateTime startTime;
+    private Date startTime;
 
     /**
      * 截止时间
      */
-    private LocalDateTime endTime;
+    private Date endTime;
 
     /**
      * 是否有发送附件（1有发送附件；0没有发送附件）
@@ -114,6 +115,9 @@ public class Thing implements Serializable {
     @TableField(select = false, fill = FieldFill.INSERT)
     @JsonIgnore
     private Integer deleteFlg;
+
+    @TableField(exist = false)
+    private String realName;
 
     private static final long serialVersionUID = 1L;
 }

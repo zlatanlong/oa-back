@@ -11,8 +11,6 @@ public class Thing4ReplyVO {
 
     private Thing thing;
 
-    private String senderName;
-
     private List<ThingSendFile> files;
 
 }
