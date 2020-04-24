@@ -119,5 +119,8 @@ public class Thing implements Serializable {
     @TableField(exist = false)
     private String realName;
 
+    @TableField(exist = false)
+    private String tagName;
+
     private static final long serialVersionUID = 1L;
 }

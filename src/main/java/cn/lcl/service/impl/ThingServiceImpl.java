@@ -128,7 +128,7 @@ public class ThingServiceImpl implements ThingService {
     @Override
     public Result getCreatedThing(SearchPageDTO<ThingReceiver> page) {
         ThingReceiver tr = page.getData();
-        Thing thing = thingMapper.selectById(tr.getThingId());
+        Thing thing = thingMapper.getThingById(tr.getThingId());
         if (thing == null) {
             throw new MyException(ResultEnum.THING_NOT_FOUND);
         }

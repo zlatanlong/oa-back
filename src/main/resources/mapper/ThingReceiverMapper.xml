@@ -29,6 +29,7 @@
             <result property="creatorId" column="tci"/>
             <result property="updatorId" column="tui"/>
             <result property="realName" column="urn"/>
+            <result property="tagName" column="tagn"/>
         </association>
     </resultMap>
     <select id="selectThingReceiversByReceiverId" resultMap="ThingReceiver">
@@ -48,14 +49,19 @@
         t.update_time tut,
         t.creator_id tci,
         t.updator_id tui,
-        u.real_name urn
+        u.real_name urn,
+        tag.tag_name tagn
         from thing t
         left join thing_receiver tr on t.id = tr.thing_id
         left join user u on t.creator_id = u.id
+        left join thing_tag tt on t.id = tt.thing_id
+        left join tag on tt.tag_id = tag.id
         where tr.user_id = #{userId}
         and t.delete_flg = 0
         and tr.delete_flg = 0
         and u.delete_flg = 0
+        and tt.delete_flg = 0
+        and tag.delete_flg = 0
         <if test="thingReceiver!=null and thingReceiver.hasFinish!=null">
             and tr.has_finish = #{thingReceiver.hasFinish}
         </if>
@@ -67,10 +73,10 @@
     <select id="selectThingReceiversAndUserRealNamePageByThingId" resultType="cn.lcl.pojo.ThingReceiver">
         select tr.*, u.real_name
         from thing_receiver tr
-                 left join user u on tr.user_id = u.id
+        left join user u on tr.user_id = u.id
         where tr.thing_id = #{thingReceiver.thingId}
-          and u.delete_flg = 0
-          and tr.delete_flg = 0
+        and u.delete_flg = 0
+        and tr.delete_flg = 0
         <if test="thingReceiver!=null and thingReceiver.hasFinish!=null">
             and tr.has_finish = #{thingReceiver.hasFinish}
         </if>

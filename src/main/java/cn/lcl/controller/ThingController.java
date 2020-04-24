@@ -54,8 +54,8 @@ public class ThingController {
      * @param result valid result
      * @return created thing and its receivers' page by search query.
      */
-    @PostMapping("/created")
-    public Result created(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
+    @PostMapping("/created/get")
+    public Result createdGet(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> thingService.getCreatedThing(page));
     }
 
@@ -65,8 +65,8 @@ public class ThingController {
      * @param thingId
      * @return
      */
-    @PostMapping("/get")
-    public Result get(@RequestBody @Valid IdDTO thingId, BindingResult result) {
+    @PostMapping("/joined/get")
+    public Result joinedGet(@RequestBody @Valid IdDTO thingId, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> thingService.getJoinedThing(thingId));
     }
 
@@ -75,8 +75,8 @@ public class ThingController {
         return ResultUtil.vaildFieldError(result, () -> thingService.finishThing(finishDTO));
     }
 
-    @PostMapping("/finish/get")
-    public Result finishGet(@RequestBody ThingReceiver thingReceiver) {
+    @PostMapping("/finished/get")
+    public Result finishedGet(@RequestBody ThingReceiver thingReceiver) {
         return thingService.getFinishedThing(thingReceiver);
     }
 
