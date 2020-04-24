@@ -1,6 +1,6 @@
 package cn.lcl.service;
 
-import cn.lcl.dto.DataPageDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
 import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
@@ -8,7 +8,7 @@ import cn.lcl.pojo.result.Result;
 import java.util.List;
 
 public interface UserService {
-    Result addUsers(List<User> users);
+    Result saveUsers(List<User> users);
 
     Result getUser();
 
@@ -20,12 +20,12 @@ public interface UserService {
 
     Result logout();
 
-    Result addRole(SysUserRole userRole);
+    Result saveRole(SysUserRole userRole);
 
-    Result delRole(SysUserRole userRole);
+    Result deleteRole(SysUserRole userRole);
 
-    Result getRoles();
+    Result listRoles();
 
-    Result getUsers(DataPageDTO<User> DataPageDTO);
+    Result listUsers(SearchPageDTO<User> SearchPageDTO);
 
 }

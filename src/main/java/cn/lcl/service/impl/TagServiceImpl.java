@@ -9,7 +9,7 @@ import cn.lcl.pojo.result.Result;
 import cn.lcl.service.TagService;
 import cn.lcl.util.AuthcUtil;
 import cn.lcl.util.ResultUtil;
-import cn.lcl.vo.TagTreeNodeVO;
+import cn.lcl.pojo.vo.TagTreeNodeVO;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class TagServiceImpl implements TagService {
     private TagMapper tagMapper;
 
     @Override
-    public Result addTag(Tag tag) {
+    public Result saveTag(Tag tag) {
         Integer parentId = tag.getParentId();
         if (parentId != null) {
             Tag fatherTag = tagMapper.selectById(parentId);
@@ -59,7 +59,7 @@ public class TagServiceImpl implements TagService {
      * getPublicState 魔法值：1 共有标签
      */
     @Override
-    public Result getAvailableTags() {
+    public Result listAvailableTags() {
         User user = AuthcUtil.getUser();
         List<Tag> tagList = new LambdaQueryChainWrapper<>(tagMapper).eq(Tag::getManagerId, user.getId())
                 .or().eq(Tag::getPublicState, 1).list();
@@ -82,7 +82,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Result getCreatedTags() {
+    public Result listCreatedTags() {
         return ResultUtil.success(
                 new LambdaQueryChainWrapper<>(tagMapper)
                         .eq(Tag::getManagerId, AuthcUtil.getUser().getId())

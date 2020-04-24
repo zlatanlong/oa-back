@@ -33,3 +33,13 @@
 - [x] Post	/tag/del			删除标签, 一般不建议（实现优先级10）
 - [x] Post	/tag/tags			根据用户查询标签列表（个人的私有和全部共有，和对应的父级，这是一个树形对象）
 - [x] Post	/tag/createdTags	某个用户创建的标签（是一个列表，因为可能是树上的某几片叶子无法构成树）
+# 4.21-4.24
+- [x] Post	/thing				创建事务，追加事务（基本信息，接受人，投票，文件，标签）
+- [x] Post	/thing/createdList		创建的事务结果列表查询，每个事务阅读人数，回执人数等（查询条件传给后端，按条件查询后分页）
+- [x] Post	/thing/created		（事务发送者）获取某个事务结果（阅读人数，回执人数，投票的统计，总人数），以及对应的receiver用户列表。
+- [x] Post /thing/finish			事务接受者对一个进行事务回执。
+- [x] Post	/thing/finish/get		（事务发送者/接受者）获取某个用户对事务的回执结果（包括回执的文件，投票详细信息）
+- [x] Post	/thing/joinedList   	需要解决的事务列表（包含事务和事务完成情况）查询，
+- [x] Post	/thing/get				事务接受者获取一个事务信息
+- [x] Post	/thing/read			用户对一个事务已读
+- [x] Post /thing/ifFInished		是否已经回复

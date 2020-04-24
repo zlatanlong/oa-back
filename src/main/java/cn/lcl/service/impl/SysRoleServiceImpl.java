@@ -32,7 +32,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Transactional
     @Override
-    public Result addPermissionOnRole(SysRolePermission sysRolePermission) {
+    public Result savePermissionOnRole(SysRolePermission sysRolePermission) {
         SysPermission permission = sysPermissionMapper.selectById(sysRolePermission.getPermissionId());
         SysRole role = sysRoleMapper.selectById(sysRolePermission.getRoleId());
         if (permission == null) {
@@ -54,7 +54,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public Result delPermissionOnRole(SysRolePermission sysRolePermission) {
+    public Result removePermissionOnRole(SysRolePermission sysRolePermission) {
         LambdaQueryWrapper<SysRolePermission> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(SysRolePermission::getPermissionId, sysRolePermission.getPermissionId())
                 .eq(SysRolePermission::getRoleId, sysRolePermission.getRoleId());
@@ -66,13 +66,13 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public Result addRole(SysRole role) {
+    public Result saveRole(SysRole role) {
         int insert = sysRoleMapper.insert(role);
         return ResultUtil.success(role);
     }
 
     @Override
-    public Result getRoles() {
+    public Result listRoles() {
         return ResultUtil.success(new LambdaQueryChainWrapper<>(sysRoleMapper).list());
     }
 

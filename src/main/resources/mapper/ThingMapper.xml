@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.lcl.mapper.ThingMapper">
-    <select id="getCreatedThingsByUserId" resultType="cn.lcl.vo.ThingCreatedListOneVO">
+    <select id="getCreatedThingsByUserId" resultType="cn.lcl.pojo.vo.ThingCreatedListOneVO">
         select t.*,
                sum(tr.has_read) readCount,
                sum(tr.has_finish) finishedCount,
@@ -14,7 +14,7 @@
         group by t.id, t.create_time
         order by t.create_time desc
     </select>
-    <select id="getCreatedThingAboutReceiverNum" resultType="cn.lcl.vo.ThingCreatedVO">
+    <select id="getCreatedThingAboutReceiverNum" resultType="cn.lcl.pojo.vo.ThingCreatedVO">
         select sum(tr.has_read) readCount,
                sum(tr.has_finish) finishedCount,
                count(tr.id)       receiversCount

@@ -1,18 +1,18 @@
 package cn.lcl.service;
 
-import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamAddDTO;
-import cn.lcl.dto.TeamMembersDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.TeamAddDTO;
+import cn.lcl.pojo.dto.TeamMembersDTO;
 import cn.lcl.pojo.Team;
 import cn.lcl.pojo.result.Result;
 
 public interface TeamService {
 
-    Result addTeam(TeamAddDTO team);
+    Result saveTeam(TeamAddDTO team);
 
-    Result addTeamMember(TeamMembersDTO teamMembers);
+    Result saveTeamMember(TeamMembersDTO teamMembers);
 
-    Result delTeamMember(TeamMembersDTO teamMembers);
+    Result deleteTeamMember(TeamMembersDTO teamMembers);
 
     /**
      * 只更新基本信息
@@ -22,16 +22,16 @@ public interface TeamService {
      */
     Result updateTeam(Team team);
 
-    Result delTeam(Team team);
+    Result deleteTeam(Team team);
 
     /**
-     * @param dataPageDTO data中是team对象
+     * @param searchPageDTO data中是team对象
      * @return team信息和对应的页的学生信息
      */
-    Result getTeam(DataPageDTO<Team> dataPageDTO);
+    Result getTeam(SearchPageDTO<Team> searchPageDTO);
 
-    Result getCreatedTeams();
+    Result listCreatedTeams();
 
-    Result getJoinedTeams();
+    Result listJoinedTeams();
 
 }

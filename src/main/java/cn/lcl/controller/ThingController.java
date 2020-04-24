@@ -1,9 +1,9 @@
 package cn.lcl.controller;
 
-import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.IdDTO;
-import cn.lcl.dto.ThingAddDTO;
-import cn.lcl.dto.ThingReplyDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.IdDTO;
+import cn.lcl.pojo.dto.ThingAddDTO;
+import cn.lcl.pojo.dto.ThingFinishDTO;
 import cn.lcl.pojo.ThingReceiver;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.ThingService;
@@ -30,7 +30,7 @@ public class ThingController {
 
     @PostMapping
     public Result addThing(@Valid ThingAddDTO thing, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.addThing(thing));
+        return ResultUtil.vaildFieldError(result, () -> thingService.saveThing(thing));
     }
 
     @PostMapping("/read")
@@ -39,13 +39,13 @@ public class ThingController {
     }
 
     @PostMapping("/joinedList")
-    public Result joinedList(@RequestBody @Valid DataPageDTO<ThingReceiver> page, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.getJoinedThings(page));
+    public Result joinedList(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> thingService.listJoinedThings(page));
     }
 
     @PostMapping("/createdList")
-    public Result createdList(@RequestBody @Valid DataPageDTO<?> page, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.getCreatedThings(page));
+    public Result createdList(@RequestBody @Valid SearchPageDTO<?> page, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> thingService.listCreatedThings(page));
     }
 
     /**
@@ -55,7 +55,7 @@ public class ThingController {
      * @return created thing and its receivers' page by search query.
      */
     @PostMapping("/created")
-    public Result created(@RequestBody @Valid DataPageDTO<ThingReceiver> page, BindingResult result) {
+    public Result created(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> thingService.getCreatedThing(page));
     }
 
@@ -70,19 +70,19 @@ public class ThingController {
         return ResultUtil.vaildFieldError(result, () -> thingService.getJoinedThing(thingId));
     }
 
-    @PostMapping("/reply")
-    public Result reply(@Valid ThingReplyDTO replyDTO, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.replyThing(replyDTO));
+    @PostMapping("/finish")
+    public Result finish(@Valid ThingFinishDTO finishDTO, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> thingService.finishThing(finishDTO));
     }
 
-    @PostMapping("/reply/get")
-    public Result replyGet(@RequestBody ThingReceiver thingReceiver) {
-        return thingService.getRepliedThing(thingReceiver);
+    @PostMapping("/finish/get")
+    public Result finishGet(@RequestBody ThingReceiver thingReceiver) {
+        return thingService.getFinishedThing(thingReceiver);
     }
 
-    @PostMapping("/ifReplied")
-    public Result ifReplied(@RequestBody @Valid IdDTO idDTO, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.ifReplied(idDTO));
+    @PostMapping("/ifFinished")
+    public Result ifFinished(@RequestBody @Valid IdDTO idDTO, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> thingService.ifFinished(idDTO));
     }
 
     @PostMapping("/test")

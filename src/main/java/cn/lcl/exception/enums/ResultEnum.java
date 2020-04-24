@@ -33,8 +33,15 @@ public enum ResultEnum {
     TEAM_NOT_FOUND(305, "小组没有找到"),
     TEAM_UPDATE_FAILED(306, "小组更新失败"),
     THING_NOT_FOUND(501,"事务未找到"),
-    THING_HAS_REPLYED(502,"事务已经回执"),
-    THING_AND_RECEIVER_NOT_FOUND(503,"事务接受者关系未找到")
+    THING_HAS_FINISHED(502,"事务已经回执"),
+    THING_AND_RECEIVER_NOT_FOUND(503,"事务接受者关系未找到"),
+    THING_QUESTION_INSERT_FAILED(504,"问题插入失败"),
+    THING_QUESTION_MUST_HAVE_OPTION(505,"问题必须要有选项"),
+    QUESTION_THING_ID_NOT_NULL(506,"问题d必须要事务id"),
+    THING_QUESTION_TYPE_NOT_NULL(507,"问题必须要有类型"),
+    ANSWER_INSERT_FAILED(508,"问题保存失败"),
+    THING_NOT_HAVE_TO_FINISH(509,"事务不需要完成"),
+    THING_NOT_FINISHED(510,"事务未完成"),
     ;
     private Integer code;
     private String msg;

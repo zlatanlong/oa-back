@@ -16,7 +16,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
 
 
     @Override
-    public Result getPermissionList() {
+    public Result listPermissions() {
         return ResultUtil.success(new LambdaQueryChainWrapper<>(sysPermissionMapper).list());
     }
 }

@@ -1,8 +1,8 @@
 package cn.lcl.mapper;
 
 import cn.lcl.pojo.Thing;
-import cn.lcl.vo.ThingCreatedListOneVO;
-import cn.lcl.vo.ThingCreatedVO;
+import cn.lcl.pojo.vo.ThingCreatedListOneVO;
+import cn.lcl.pojo.vo.ThingCreatedVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;

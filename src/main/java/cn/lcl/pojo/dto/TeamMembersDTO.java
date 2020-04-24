@@ -1,4 +1,4 @@
-package cn.lcl.dto;
+package cn.lcl.pojo.dto;
 
 import cn.lcl.pojo.User;
 import lombok.Data;

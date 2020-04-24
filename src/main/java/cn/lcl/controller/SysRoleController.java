@@ -23,24 +23,24 @@ public class SysRoleController {
 
     @PostMapping("/add")
     public Result add(@RequestBody @Valid SysRole role, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> sysRoleService.addRole(role));
+        return ResultUtil.vaildFieldError(result, () -> sysRoleService.saveRole(role));
     }
 
     @PostMapping("/addPermission")
     public Result addPermission(@RequestBody @Valid SysRolePermission rolePermission,
                                 BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> sysRoleService.addPermissionOnRole(rolePermission));
+        return ResultUtil.vaildFieldError(result, () -> sysRoleService.savePermissionOnRole(rolePermission));
     }
 
     @PostMapping("/delPermission")
     public Result delPermission(@RequestBody @Valid SysRolePermission rolePermission,
                                 BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> sysRoleService.delPermissionOnRole(rolePermission));
+        return ResultUtil.vaildFieldError(result, () -> sysRoleService.removePermissionOnRole(rolePermission));
     }
 
     @PostMapping("/getRoles")
     public Result getRoles() {
-        return sysRoleService.getRoles();
+        return sysRoleService.listRoles();
     }
 
     @PostMapping("/getRole")

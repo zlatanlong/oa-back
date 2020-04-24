@@ -1,8 +1,8 @@
 package cn.lcl.service.impl;
 
-import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamAddDTO;
-import cn.lcl.dto.TeamMembersDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.TeamAddDTO;
+import cn.lcl.pojo.dto.TeamMembersDTO;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.TeamMapper;
@@ -36,7 +36,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result addTeam(TeamAddDTO team) {
+    public Result saveTeam(TeamAddDTO team) {
         User user = AuthcUtil.getUser();
         Team resultTeam = new Team();
         resultTeam.setManagerId(user.getId());
@@ -60,7 +60,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result addTeamMember(TeamMembersDTO teamMembers) {
+    public Result saveTeamMember(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {
@@ -81,7 +81,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result delTeamMember(TeamMembersDTO teamMembers) {
+    public Result deleteTeamMember(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {
@@ -110,7 +110,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Result delTeam(Team team) {
+    public Result deleteTeam(Team team) {
         if (team.getId() == null) {
             throw new MyException(ResultEnum.MISS_FIELD);
         }
@@ -119,21 +119,21 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Result getTeam(DataPageDTO<Team> dataPageDTO) {
-        Team team = dataPageDTO.getData();
+    public Result getTeam(SearchPageDTO<Team> searchPageDTO) {
+        Team team = searchPageDTO.getData();
         Team resultTeam = teamMapper.selectById(team.getId());
         if (resultTeam == null) {
             throw new MyException(ResultEnum.TEAM_NOT_FOUND);
         }
         Page<User> userPage = teamMapper.selectMembersInTeam(
-                new Page<>(dataPageDTO.getPageCurrent(), dataPageDTO.getPageSize()),
+                new Page<>(searchPageDTO.getPageCurrent(), searchPageDTO.getPageSize()),
                 resultTeam.getId());
         resultTeam.setMembersPage(userPage);
         return ResultUtil.success(resultTeam);
     }
 
     @Override
-    public Result getCreatedTeams() {
+    public Result listCreatedTeams() {
         User user = AuthcUtil.getUser();
         List<Team> list = new LambdaQueryChainWrapper<>(teamMapper)
                 .eq(Team::getManagerId, user.getId()).list();
@@ -141,7 +141,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Result getJoinedTeams() {
+    public Result listJoinedTeams() {
         User user = AuthcUtil.getUser();
         return ResultUtil.success(teamMapper.selectTeamListByMemberId(user.getId()));
     }

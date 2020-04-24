@@ -1,8 +1,8 @@
 package cn.lcl.controller;
 
-import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.TeamAddDTO;
-import cn.lcl.dto.TeamMembersDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.TeamAddDTO;
+import cn.lcl.pojo.dto.TeamMembersDTO;
 import cn.lcl.pojo.Team;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.TeamService;
@@ -25,32 +25,32 @@ public class TeamController {
 
     @PostMapping("/add")
     public Result addTeam(@RequestBody @Valid TeamAddDTO team, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> service.addTeam(team));
+        return ResultUtil.vaildFieldError(result, () -> service.saveTeam(team));
     }
 
     @PostMapping("/addMember")
     public Result addTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> service.addTeamMember(teamMembers));
+        return ResultUtil.vaildFieldError(result, () -> service.saveTeamMember(teamMembers));
     }
 
     @PostMapping("/delMember")
     public Result delTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> service.delTeamMember(teamMembers));
+        return ResultUtil.vaildFieldError(result, () -> service.deleteTeamMember(teamMembers));
     }
 
     @PostMapping
-    public Result getTeam(@RequestBody @Valid DataPageDTO<Team> pageDTO, BindingResult result) {
+    public Result getTeam(@RequestBody @Valid SearchPageDTO<Team> pageDTO, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> service.getTeam(pageDTO));
     }
 
     @PostMapping("/createdList")
     public Result createdList() {
-        return service.getCreatedTeams();
+        return service.listCreatedTeams();
     }
 
     @PostMapping("/joinedList")
     public Result joinedList() {
-        return service.getJoinedTeams();
+        return service.listJoinedTeams();
     }
 
     @PostMapping("/update")
@@ -60,6 +60,6 @@ public class TeamController {
 
     @PostMapping("/del")
     public Result del(@RequestBody Team team) {
-        return service.delTeam(team);
+        return service.deleteTeam(team);
     }
 }

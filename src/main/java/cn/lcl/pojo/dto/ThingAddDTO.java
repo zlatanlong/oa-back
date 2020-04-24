@@ -1,4 +1,4 @@
-package cn.lcl.dto;
+package cn.lcl.pojo.dto;
 
 import cn.lcl.pojo.*;
 import lombok.Data;
@@ -24,6 +24,6 @@ public class ThingAddDTO extends Thing {
 
     private List<MultipartFile> files;
 
-    private List<ThingQuestion> questions;
+    private String questionsJSON;
 
 }

@@ -6,13 +6,13 @@ import cn.lcl.pojo.result.Result;
 
 public interface SysRoleService {
 
-    Result addPermissionOnRole(SysRolePermission sysRolePermission);
+    Result savePermissionOnRole(SysRolePermission sysRolePermission);
 
-    Result delPermissionOnRole(SysRolePermission sysRolePermission);
+    Result removePermissionOnRole(SysRolePermission sysRolePermission);
 
-    Result addRole(SysRole role);
+    Result saveRole(SysRole role);
 
-    Result getRoles();
+    Result listRoles();
 
     Result getRole(SysRole sysRole);
 }

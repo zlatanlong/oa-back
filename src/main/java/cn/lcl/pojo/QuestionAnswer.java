@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,11 +25,6 @@ public class QuestionAnswer implements Serializable {
     private Integer id;
 
     /**
-     * thing表自增id
-     */
-    private Integer thingId;
-
-    /**
      * 回执人在user表的Id
      */
     private Integer userId;
@@ -35,17 +32,19 @@ public class QuestionAnswer implements Serializable {
     /**
      * thing_question表的id
      */
+    @NotNull(message = "questionId not null")
     private Integer questionId;
 
     /**
      * 回执人的选择，对应question_option表的id
      */
-    private String questionOptionId;
+    @NotNull(message = "questionOptionId not null")
+    private Integer questionOptionId;
 
     /**
      * 回执人对该选项/投票项的打分
      */
-    private String score;
+    private Integer score;
 
     /**
      * 回执人对该选项/投票项的评语/备注等
@@ -79,7 +78,12 @@ public class QuestionAnswer implements Serializable {
     /**
      * 删除标志（0表示未删除，id表示已删除）
      */
-    @TableField(select = false)
+    @TableField(select = false, fill = FieldFill.INSERT)
+    @JsonIgnore
+    private Integer deleteFlg;
+
+    @TableField(exist = false)
+    private QuestionOption option;
 
     private static final long serialVersionUID = 1L;
 }

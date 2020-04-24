@@ -1,6 +1,6 @@
 package cn.lcl.service.impl;
 
-import cn.lcl.dto.DataPageDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.SysUserRoleMapper;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public Result addUsers(List<User> users) {
+    public Result saveUsers(List<User> users) {
         for (User user : users) {
             User eq = new LambdaQueryChainWrapper<User>(userMapper)
                     .eq(User::getNumber, user.getNumber()).one();
@@ -111,14 +111,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result addRole(SysUserRole userRole) {
+    public Result saveRole(SysUserRole userRole) {
         sysUserRoleMapper.insert(userRole);
 
         return ResultUtil.success(userRole);
     }
 
     @Override
-    public Result delRole(SysUserRole userRole) {
+    public Result deleteRole(SysUserRole userRole) {
         LambdaQueryWrapper<SysUserRole> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(SysUserRole::getUserId, userRole.getUserId())
                 .eq(SysUserRole::getRoleId, userRole.getRoleId());
@@ -132,15 +132,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result getRoles() {
+    public Result listRoles() {
         User user = AuthcUtil.getUser();
         getRolesAndPermissions(user);
         return ResultUtil.success(user);
     }
 
     @Override
-    public Result getUsers(DataPageDTO<User> dataPageDTO) {
-        User user = dataPageDTO.getData();
+    public Result listUsers(SearchPageDTO<User> searchPageDTO) {
+        User user = searchPageDTO.getData();
         QueryWrapper<User> query = Wrappers.query();
         Map<String, String> map = null;
         // user may have some null field, so we should filter the null field
@@ -153,7 +153,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
             return ResultUtil.success(userMapper.selectPage(
-                    new Page<>(dataPageDTO.getPageCurrent(), dataPageDTO.getPageSize()), query));
+                    new Page<>(searchPageDTO.getPageCurrent(), searchPageDTO.getPageSize()), query));
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException(ResultEnum.USERS_FIND_ERROR);

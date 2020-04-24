@@ -14,6 +14,6 @@ public class SysPermissionController {
 
     @PostMapping("/permissions")
     public Result getPermissions() {
-        return sysPermissionService.getPermissionList();
+        return sysPermissionService.listPermissions();
     }
 }

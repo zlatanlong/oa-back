@@ -1,7 +1,7 @@
 package cn.lcl.controller;
 
-import cn.lcl.dto.DataPageDTO;
-import cn.lcl.dto.IdDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.IdDTO;
 import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping("/addUsers")
     public Result addUsers(@RequestBody List<User> users) {
-        return userService.addUsers(users);
+        return userService.saveUsers(users);
     }
 
     @PostMapping("/login")
@@ -51,22 +51,22 @@ public class UserController {
 
     @PostMapping("/addRole")
     public Result addRole(@RequestBody @Valid SysUserRole userRole, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> userService.addRole(userRole));
+        return ResultUtil.vaildFieldError(result, () -> userService.saveRole(userRole));
     }
 
     @PostMapping("/delRole")
     public Result delRole(@RequestBody @Valid SysUserRole userRole, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> userService.delRole(userRole));
+        return ResultUtil.vaildFieldError(result, () -> userService.deleteRole(userRole));
     }
 
     @PostMapping("/getRoles")
     public Result getRoles() {
-        return ResultUtil.success(userService.getRoles());
+        return ResultUtil.success(userService.listRoles());
     }
 
     @PostMapping("/getUsers")
-    public Result getUsers(@RequestBody @Valid DataPageDTO<User> dataPageDTO, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> userService.getUsers(dataPageDTO));
+    public Result getUsers(@RequestBody @Valid SearchPageDTO<User> searchPageDTO, BindingResult result) {
+        return ResultUtil.vaildFieldError(result, () -> userService.listUsers(searchPageDTO));
     }
 
 

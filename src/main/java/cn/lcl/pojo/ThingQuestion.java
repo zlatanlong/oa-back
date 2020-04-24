@@ -9,6 +9,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * thing_question
@@ -31,22 +32,17 @@ public class ThingQuestion implements Serializable {
     /**
      * 问题内容
      */
-    private String content;
+    private String title;
 
     /**
      * 题目标号
      */
-    private Byte number;
+    private Integer number;
 
     /**
      * 最多几选（最多选择几个）
      */
     private String maxChoose;
-
-    /**
-     * 作答类型（勾选/点选投票选择、输入数字打分、输入文本评论）
-     */
-    private Byte answerType;
 
     /**
      * 回执类型（1文字填空、2投票类型、3选项类型、4打分类型）
@@ -83,6 +79,13 @@ public class ThingQuestion implements Serializable {
     @TableField(select = false, fill = FieldFill.INSERT)
     @JsonIgnore
     private Integer deleteFlg;
+
+    @TableField(exist = false)
+    private List<QuestionOption> options;
+
+    @TableField(exist = false)
+    private List<QuestionAnswer> answers;
+
 
     private static final long serialVersionUID = 1L;
 }

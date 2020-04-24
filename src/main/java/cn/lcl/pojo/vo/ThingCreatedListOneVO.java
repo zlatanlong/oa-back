@@ -1,4 +1,4 @@
-package cn.lcl.vo;
+package cn.lcl.pojo.vo;
 
 import cn.lcl.pojo.Thing;
 import lombok.Data;

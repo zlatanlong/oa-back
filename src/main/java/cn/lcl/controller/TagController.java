@@ -22,7 +22,7 @@ public class TagController {
 
     @PostMapping
     public Result add(@RequestBody @Valid Tag tag, BindingResult result) {
-        return ResultUtil.vaildFieldError(result,()->tagService.addTag(tag));
+        return ResultUtil.vaildFieldError(result,()->tagService.saveTag(tag));
     }
 
     @PostMapping("/update")
@@ -37,11 +37,11 @@ public class TagController {
 
     @PostMapping("/tags")
     public Result getTags() {
-        return tagService.getAvailableTags();
+        return tagService.listAvailableTags();
     }
 
     @PostMapping("/createdTags")
     public Result createdTags() {
-        return tagService.getCreatedTags();
+        return tagService.listCreatedTags();
     }
 }
