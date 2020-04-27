@@ -49,7 +49,7 @@ public class ThingReceiver implements Serializable {
     /**
      * 是否点完成（1已完成；0未完成）
      */
-    private String hasFinish;
+    private String hasFinished;
 
     /**
      * 创建时间

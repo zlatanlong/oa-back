@@ -5,7 +5,7 @@
         select t.*,
                tag.tag_name,
                sum(tr.has_read)   readCount,
-               sum(tr.has_finish) finishedCount,
+               sum(tr.has_finished) finishedCount,
                count(tr.id)       receiversCount
         from thing t
                  left join thing_receiver tr on t.id = tr.thing_id
@@ -21,7 +21,7 @@
     </select>
     <select id="getCreatedThingAboutReceiverNum" resultType="cn.lcl.pojo.vo.ThingCreatedVO">
         select sum(tr.has_read)   readCount,
-               sum(tr.has_finish) finishedCount,
+               sum(tr.has_finished) finishedCount,
                count(tr.id)       receiversCount
         from thing t
                  left join thing_receiver tr on t.id = tr.thing_id

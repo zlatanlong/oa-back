@@ -1,23 +1,22 @@
 package cn.lcl.service.impl;
 
-import cn.lcl.pojo.dto.SearchPageDTO;
-import cn.lcl.pojo.dto.IdDTO;
-import cn.lcl.pojo.dto.ThingAddDTO;
-import cn.lcl.pojo.dto.ThingFinishDTO;
 import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.*;
 import cn.lcl.pojo.*;
+import cn.lcl.pojo.dto.*;
 import cn.lcl.pojo.result.Result;
+import cn.lcl.pojo.vo.ThingCreatedListOneVO;
+import cn.lcl.pojo.vo.ThingCreatedVO;
+import cn.lcl.pojo.vo.ThingFInishedVO;
+import cn.lcl.pojo.vo.ThingJoinedVO;
 import cn.lcl.service.QuestionService;
 import cn.lcl.service.ThingService;
 import cn.lcl.util.AuthcUtil;
 import cn.lcl.util.FileUtil;
 import cn.lcl.util.ResultUtil;
-import cn.lcl.pojo.vo.ThingCreatedListOneVO;
-import cn.lcl.pojo.vo.ThingCreatedVO;
-import cn.lcl.pojo.vo.ThingFInishedVO;
-import cn.lcl.pojo.vo.ThingJoinedVO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,16 +38,18 @@ public class ThingServiceImpl implements ThingService {
     private final ThingSendFileMapper thingSendFileMapper;
     private final ThingReplyFileMapper thingReplyFileMapper;
     private final QuestionService questionService;
+    private final TeamMemberMapper teamMemberMapper;
 
     public ThingServiceImpl(ThingMapper thingMapper, ThingTagMapper thingTagMapper,
                             ThingReceiverMapper thingReceiverMapper, ThingSendFileMapper thingSendFileMapper,
-                            ThingReplyFileMapper thingReplyFileMapper, QuestionService questionService) {
+                            ThingReplyFileMapper thingReplyFileMapper, QuestionService questionService, TeamMemberMapper teamMemberMapper) {
         this.thingMapper = thingMapper;
         this.thingTagMapper = thingTagMapper;
         this.thingReceiverMapper = thingReceiverMapper;
         this.thingSendFileMapper = thingSendFileMapper;
         this.thingReplyFileMapper = thingReplyFileMapper;
         this.questionService = questionService;
+        this.teamMemberMapper = teamMemberMapper;
     }
 
 
@@ -63,17 +64,35 @@ public class ThingServiceImpl implements ThingService {
         thingTag.setThingId(thing.getId());
         thingTagMapper.insert(thingTag);
         // 3.插入 事务-用户对应关系
-        for (Integer receiverId : thing.getReceiverIds()) {
-            // danger 判断receiver为空？
-            ThingReceiver thingReceiver = new ThingReceiver();
-            thingReceiver.setHasRead("0");
-            thingReceiver.setHasFinish("0");
-            thingReceiver.setThingId(thing.getId());
-            thingReceiver.setUserId(receiverId);
-            thingReceiverMapper.insert(thingReceiver);
-        }
-        if (!"1".equals(thing.getNeedFinish())) {
-            return ResultUtil.success();
+        if (thing.getUserTeam()) {
+            if (thing.getTeamId() == null) {
+                throw new MyException(ResultEnum.THING_TEAM_ID_NOT_NULL);
+            }
+            LambdaQueryWrapper<TeamMember> query = Wrappers.lambdaQuery();
+            query.select(TeamMember::getUserId).eq(TeamMember::getTeamId, thing.getTeamId());
+            List<TeamMember> teamMembers = teamMemberMapper.selectList(query);
+            for (TeamMember teamMember : teamMembers) {
+                // danger 判断receiver为空？
+                ThingReceiver thingReceiver = new ThingReceiver();
+                thingReceiver.setHasRead("0");
+                thingReceiver.setHasFinished("0");
+                thingReceiver.setThingId(thing.getId());
+                thingReceiver.setUserId(teamMember.getUserId());
+                thingReceiverMapper.insert(thingReceiver);
+            }
+        } else {
+            if (thing.getReceiverIds() == null || thing.getReceiverIds().length == 0) {
+                throw new MyException(ResultEnum.THING_RECEIVERIDS_NOT_NULL);
+            }
+            for (Integer receiverId : thing.getReceiverIds()) {
+                // danger 判断receiver为空？
+                ThingReceiver thingReceiver = new ThingReceiver();
+                thingReceiver.setHasRead("0");
+                thingReceiver.setHasFinished("0");
+                thingReceiver.setThingId(thing.getId());
+                thingReceiver.setUserId(receiverId);
+                thingReceiverMapper.insert(thingReceiver);
+            }
         }
         // 4.插入 事务-文件对应关系
         if ("1".equals(thing.getHasSendFile())) {
@@ -94,6 +113,10 @@ public class ThingServiceImpl implements ThingService {
             }
         }
         // 5.插入 事务-问题对应关系(单独业务)
+        // 如果不需要完成，则不需要此关系。
+        if (!"1".equals(thing.getNeedFinish())) {
+            return ResultUtil.success();
+        }
         if ("1".equals(thing.getNeedAnswer())) {
             ObjectMapper mapper = new ObjectMapper();
             try {
@@ -196,7 +219,7 @@ public class ThingServiceImpl implements ThingService {
     public Result finishThing(ThingFinishDTO finishDTO) {
         Thing thing = thingMapper.selectById(finishDTO.getThingId());
         ThingReceiver thingReceiver = checkThingAndGetThingReceiver(thing);
-        if ("1".equals(thingReceiver.getHasFinish())) {
+        if ("1".equals(thingReceiver.getHasFinished())) {
             throw new MyException(ResultEnum.THING_HAS_FINISHED);
         }
         if (!"1".equals(thing.getNeedFinish())) {
@@ -210,11 +233,15 @@ public class ThingServiceImpl implements ThingService {
             thingReceiver.setContent(finishDTO.getContent());
         }
         // 2.如果需要回执文件
-        finishFiles(finishDTO, thing);
+        if ("1".equals(thing.getNeedFileReply())) {
+            finishFiles(finishDTO, thing);
+        }
         // 3.如果需要回执answer
-        finishAnswers(finishDTO, thing);
+        if ("1".equals(thing.getNeedAnswer())) {
+            finishAnswers(finishDTO, thing);
+        }
         // 4.成功后设为已完成
-        thingReceiver.setHasFinish("1");
+        thingReceiver.setHasFinished("1");
         thingReceiverMapper.updateById(thingReceiver);
         return ResultUtil.success();
     }
@@ -227,7 +254,7 @@ public class ThingServiceImpl implements ThingService {
         if (thingReceiver == null) {
             throw new MyException(ResultEnum.THING_AND_RECEIVER_NOT_FOUND);
         }
-        if (!"1".equals(thingReceiver.getHasFinish())) {
+        if (!"1".equals(thingReceiver.getHasFinished())) {
             throw new MyException(ResultEnum.THING_NOT_FINISHED);
         }
 
@@ -259,7 +286,7 @@ public class ThingServiceImpl implements ThingService {
                 .eq(ThingReceiver::getThingId, idDTO.getId())
                 .eq(ThingReceiver::getUserId, user.getId())
                 .one();
-        return ResultUtil.success("1".equals(one.getHasFinish()));
+        return ResultUtil.success("1".equals(one.getHasFinished()));
     }
 
     private ThingReceiver checkThingAndGetThingReceiver(Thing thing) {

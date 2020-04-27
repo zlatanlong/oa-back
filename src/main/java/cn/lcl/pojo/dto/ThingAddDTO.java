@@ -1,11 +1,10 @@
 package cn.lcl.pojo.dto;
 
-import cn.lcl.pojo.*;
+import cn.lcl.pojo.Thing;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,8 +15,14 @@ import java.util.List;
 @Data
 public class ThingAddDTO extends Thing {
 
-    @NotEmpty(message = "receiverIds not null")
+    // 是否通过小组录入人员，如果不使用小组，则使用receiverIds
+    @NotNull(message = "userTeam not null")
+    private Boolean userTeam;
+
+    private Integer teamId;
+
     private Integer[] receiverIds;
+
 
     @NotNull(message = "tagId not null")
     private Integer tagId;

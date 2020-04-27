@@ -42,6 +42,8 @@ public enum ResultEnum {
     ANSWER_INSERT_FAILED(508,"问题保存失败"),
     THING_NOT_HAVE_TO_FINISH(509,"事务不需要完成"),
     THING_NOT_FINISHED(510,"事务未完成"),
+    THING_TEAM_ID_NOT_NULL(511,"事务teamId不能为空"),
+    THING_RECEIVERIDS_NOT_NULL(511,"事务receiverIds不能为空"),
     ;
     private Integer code;
     private String msg;
