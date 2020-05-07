@@ -158,12 +158,9 @@ public class ThingServiceImpl implements ThingService {
         // 1. valid the thing not null.
         // 2. get vo from mapper and set its thing field.
         ThingCreatedVO thingCreatedVO = thingMapper.getCreatedThingAboutReceiverNum(thing.getId());
-        thingCreatedVO.setThing(thing);
-        // 3. get questions
-        if ("1".equals(thing.getNeedAnswer())) {
-            thingCreatedVO.setQuestions(questionService.listQuestions(thing.getId()));
-        }
-        // 4. get the receivers page.
+        // 3.4. get the files, questions
+        getCommonThingVO(thing,thingCreatedVO);
+        // 5. get the receivers page.
         Page<ThingReceiver> paramPage = page.getParamPage();
         thingCreatedVO.setThingReceiversPage(
                 thingReceiverMapper.selectThingReceiversAndUserRealNamePageByThingId(paramPage, tr));
@@ -179,17 +176,8 @@ public class ThingServiceImpl implements ThingService {
         thingReceiverMapper.updateById(thingReceiver);
         // 1. get the thing entity.
         ThingJoinedVO thingJoinedVO = new ThingJoinedVO();
-        thingJoinedVO.setThing(thing);
-        // 2. if thing has files, get the files.
-        if ("1".equals(thing.getHasSendFile())) {
-            thingJoinedVO.setFiles(new LambdaQueryChainWrapper<>(thingSendFileMapper)
-                    .eq(ThingSendFile::getThingId, thing.getId())
-                    .list());
-        }
-        // 3. get questions
-        if ("1".equals(thing.getNeedAnswer())) {
-            thingJoinedVO.setQuestions(questionService.listQuestions(thingId.getId()));
-        }
+        // 2. get others.
+        getCommonThingVO(thing,thingJoinedVO);
 
         return ResultUtil.success(thingJoinedVO);
     }
@@ -340,6 +328,20 @@ public class ThingServiceImpl implements ThingService {
                 thingReplyFile.setUserId(user.getId());
                 thingReplyFileMapper.insert(thingReplyFile);
             }
+        }
+    }
+
+    private void getCommonThingVO(Thing thing, ThingJoinedVO vo){
+        vo.setThing(thing);
+        // 1. if thing has files, get the files.
+        if ("1".equals(thing.getHasSendFile())) {
+            vo.setFiles(new LambdaQueryChainWrapper<>(thingSendFileMapper)
+                    .eq(ThingSendFile::getThingId, thing.getId())
+                    .list());
+        }
+        // 2. get questions
+        if ("1".equals(thing.getNeedAnswer())) {
+            vo.setQuestions(questionService.listQuestions(thing.getId()));
         }
     }
 }

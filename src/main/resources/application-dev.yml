@@ -4,12 +4,15 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: lcl123
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 100MB
+logging:
+  level:
+    cn.lcl.mapper: trace
+  pattern:
+    console: '%p%m%n'
 file:
   # 服务器地址
   filePath: /Users/zlatan/Desktop/ceshi1/
   # 前端地址
   urlPath: /Users/zlatan/Desktop/ceshi1/
+wx:
+  secret: 123

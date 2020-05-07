@@ -63,6 +63,7 @@ public class QuestionServiceImpl implements QuestionService {
             case "4":
                 for (QuestionOption option : options) {
                     option.setQuestionId(question.getId());
+                    questionOptionMapper.insert(option);
                 }
                 break;
         }

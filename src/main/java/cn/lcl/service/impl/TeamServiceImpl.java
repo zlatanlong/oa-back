@@ -66,7 +66,7 @@ public class TeamServiceImpl implements TeamService {
         for (User member : teamMembers.getMembers()) {
             List<TeamMember> list = getTeamMemberList(teamId, member);
             if (list.size() != 0) {
-                throw new MyException(ResultEnum.TEAM_MEMBER_ALREADLY_EXIST);
+                continue;
             }
             TeamMember teamMember = new TeamMember();
             teamMember.setTeamId(teamId);

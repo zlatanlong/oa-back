@@ -141,6 +141,7 @@ public class TagServiceImpl implements TagService {
         TagTreeNodeVO tagTreeNode = new TagTreeNodeVO();
         tagTreeNode.setTitle(tag.getTagName());
         tagTreeNode.setKey(tag.getId());
+        tagTreeNode.setValue(tag.getId());
         tagTreeNode.setPublicState(Integer.valueOf(tag.getPublicState()));
         return tagTreeNode;
     }

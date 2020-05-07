@@ -12,6 +12,8 @@ public class TagTreeNodeVO {
 
     private Integer key;
 
+    private Integer value;
+
     private Integer publicState;
 
     private List<TagTreeNodeVO> children;

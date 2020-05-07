@@ -6,13 +6,11 @@ import cn.lcl.pojo.SysUserRole;
 import cn.lcl.pojo.User;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.service.UserService;
+import cn.lcl.service.WxService;
 import cn.lcl.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,6 +21,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    WxService wxService;
 
     @PostMapping
     public Result getUser() {
@@ -69,5 +69,9 @@ public class UserController {
         return ResultUtil.vaildFieldError(result, () -> userService.listUsers(searchPageDTO));
     }
 
+    @PostMapping("/bindWX")
+    public Result bindWX(@RequestParam String code) {
+        return wxService.updateUserOpenid(code);
+    }
 
 }
