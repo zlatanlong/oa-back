@@ -5,10 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class WxTokenResule extends WxError {
-
-    private String access_token;
-
-    private Integer expires_in;
-
+public class WxSendTemplateNoteResult extends WxError {
+    public Double msgid;
 }

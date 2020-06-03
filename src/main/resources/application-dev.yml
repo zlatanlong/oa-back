@@ -8,11 +8,12 @@ logging:
   level:
     cn.lcl.mapper: trace
   pattern:
-    console: '%p%m%n'
+#    console: '%p%m%n'
 file:
   # 服务器地址
   filePath: /Users/zlatan/Desktop/ceshi1/
   # 前端地址
   urlPath: /Users/zlatan/Desktop/ceshi1/
+url: http://localhost:8000/#/
 wx:
-  secret: 123
+  secret: a2cad0b0e025348fc32202c2cd5798e1

@@ -60,7 +60,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result saveTeamMember(TeamMembersDTO teamMembers) {
+    public Result saveTeamMembers(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {
@@ -81,7 +81,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Transactional
     @Override
-    public Result deleteTeamMember(TeamMembersDTO teamMembers) {
+    public Result deleteTeamMembers(TeamMembersDTO teamMembers) {
         Integer teamId = teamMembers.getTeamId();
         validTeamExist(teamId);
         for (User member : teamMembers.getMembers()) {

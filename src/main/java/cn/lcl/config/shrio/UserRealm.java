@@ -15,7 +15,6 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     UserService userService;
 
-
     /**
      * 授权
      *

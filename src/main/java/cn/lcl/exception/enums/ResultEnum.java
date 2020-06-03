@@ -15,6 +15,8 @@ public enum ResultEnum {
     MISS_FIELD(2, ""), // 确实字段，错误信息由外层添加
     FILE_UPLOAD_FAILED(3, "文件上传失败"), // 确实字段，错误信息由外层添加
     GET_WX_TOKEN_FAILED(4,"获取微信token失败"),
+    SEND_WX_NOTE_FAILED(5,"发送微信通知失败"),
+    SEND_WX_NOTE_FAILED_IN_HTTP(6,"发送微信通知时发送微信请求失败"),
     NOT_AUTHENTICATION(101, "未登录"),
     USER_INFO_NOT_INTEGRITY(102, "用户信息不完整"),
     USER_LIST_HAS_REPEAT(103, "用户列表中与已有用户有重复"),

@@ -30,12 +30,12 @@ public class TeamController {
 
     @PostMapping("/addMember")
     public Result addTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> service.saveTeamMember(teamMembers));
+        return ResultUtil.vaildFieldError(result, () -> service.saveTeamMembers(teamMembers));
     }
 
     @PostMapping("/delMember")
     public Result delTeamMember(@RequestBody @Valid TeamMembersDTO teamMembers, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> service.deleteTeamMember(teamMembers));
+        return ResultUtil.vaildFieldError(result, () -> service.deleteTeamMembers(teamMembers));
     }
 
     @PostMapping

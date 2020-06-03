@@ -52,6 +52,11 @@ public class ThingReceiver implements Serializable {
     private String hasFinished;
 
     /**
+     * 是否已经发送通知（1已发送；0未发送）
+     */
+    private String hasSendNote;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

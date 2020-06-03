@@ -4,7 +4,10 @@ import cn.lcl.exception.MyException;
 import cn.lcl.exception.enums.ResultEnum;
 import cn.lcl.mapper.*;
 import cn.lcl.pojo.*;
-import cn.lcl.pojo.dto.*;
+import cn.lcl.pojo.dto.IdDTO;
+import cn.lcl.pojo.dto.SearchPageDTO;
+import cn.lcl.pojo.dto.ThingAddDTO;
+import cn.lcl.pojo.dto.ThingFinishDTO;
 import cn.lcl.pojo.result.Result;
 import cn.lcl.pojo.vo.ThingCreatedListOneVO;
 import cn.lcl.pojo.vo.ThingCreatedVO;
@@ -12,11 +15,10 @@ import cn.lcl.pojo.vo.ThingFInishedVO;
 import cn.lcl.pojo.vo.ThingJoinedVO;
 import cn.lcl.service.QuestionService;
 import cn.lcl.service.ThingService;
+import cn.lcl.service.WxService;
 import cn.lcl.util.AuthcUtil;
 import cn.lcl.util.FileUtil;
 import cn.lcl.util.ResultUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,22 +29,27 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 @Service
 public class ThingServiceImpl implements ThingService {
 
     private final ThingMapper thingMapper;
     private final ThingTagMapper thingTagMapper;
+    private final UserMapper userMapper;
     private final ThingReceiverMapper thingReceiverMapper;
     private final ThingSendFileMapper thingSendFileMapper;
     private final ThingReplyFileMapper thingReplyFileMapper;
     private final QuestionService questionService;
     private final TeamMemberMapper teamMemberMapper;
+    private final WxService wxService;
+
 
     public ThingServiceImpl(ThingMapper thingMapper, ThingTagMapper thingTagMapper,
                             ThingReceiverMapper thingReceiverMapper, ThingSendFileMapper thingSendFileMapper,
-                            ThingReplyFileMapper thingReplyFileMapper, QuestionService questionService, TeamMemberMapper teamMemberMapper) {
+                            ThingReplyFileMapper thingReplyFileMapper, QuestionService questionService, TeamMemberMapper teamMemberMapper, WxService wxService, UserMapper userMapper) {
         this.thingMapper = thingMapper;
         this.thingTagMapper = thingTagMapper;
         this.thingReceiverMapper = thingReceiverMapper;
@@ -50,6 +57,8 @@ public class ThingServiceImpl implements ThingService {
         this.thingReplyFileMapper = thingReplyFileMapper;
         this.questionService = questionService;
         this.teamMemberMapper = teamMemberMapper;
+        this.wxService = wxService;
+        this.userMapper = userMapper;
     }
 
 
@@ -57,6 +66,8 @@ public class ThingServiceImpl implements ThingService {
     @Override
     public Result saveThing(ThingAddDTO thing) {
         // 1.插入事务
+        User sender = AuthcUtil.getUser();
+        thing.setRealName(sender.getRealName());
         thingMapper.insert(thing);
         // 2.插入 事务-标签对应关系
         ThingTag thingTag = new ThingTag();
@@ -68,18 +79,39 @@ public class ThingServiceImpl implements ThingService {
             if (thing.getTeamId() == null) {
                 throw new MyException(ResultEnum.THING_TEAM_ID_NOT_NULL);
             }
-            LambdaQueryWrapper<TeamMember> query = Wrappers.lambdaQuery();
-            query.select(TeamMember::getUserId).eq(TeamMember::getTeamId, thing.getTeamId());
-            List<TeamMember> teamMembers = teamMemberMapper.selectList(query);
-            for (TeamMember teamMember : teamMembers) {
+            List<User> teamUsers = teamMemberMapper.selectUsersByTeamId(thing.getTeamId());
+
+            long startTime = System.currentTimeMillis();// 获取开始时间
+            ExecutorService executorService = Executors.newFixedThreadPool(teamUsers.size());
+            List<Future<Boolean>> futures = new ArrayList<>();
+            for (User user : teamUsers) {
                 // danger 判断receiver为空？
                 ThingReceiver thingReceiver = new ThingReceiver();
                 thingReceiver.setHasRead("0");
                 thingReceiver.setHasFinished("0");
+                thingReceiver.setHasSendNote("0");
                 thingReceiver.setThingId(thing.getId());
-                thingReceiver.setUserId(teamMember.getUserId());
-                thingReceiverMapper.insert(thingReceiver);
+                thingReceiver.setUserId(user.getId());
+                if (user.getWxOpenId() != null) {
+                    futures.add(executorService.submit(() -> wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)));
+                } else {
+                    thingReceiverMapper.insert(thingReceiver);
+                }
             }
+            for (Future<Boolean> future : futures) {
+                try {
+                    future.get(500, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
+                }
+            }
+            executorService.shutdown();
+            long endTime = System.currentTimeMillis();// 获取结束时间
+            System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
         } else {
             if (thing.getReceiverIds() == null || thing.getReceiverIds().length == 0) {
                 throw new MyException(ResultEnum.THING_RECEIVERIDS_NOT_NULL);
@@ -89,8 +121,15 @@ public class ThingServiceImpl implements ThingService {
                 ThingReceiver thingReceiver = new ThingReceiver();
                 thingReceiver.setHasRead("0");
                 thingReceiver.setHasFinished("0");
+                thingReceiver.setHasSendNote("0");
                 thingReceiver.setThingId(thing.getId());
                 thingReceiver.setUserId(receiverId);
+                User user = userMapper.selectById(receiverId);
+                if (user.getWxOpenId() != null) {
+                    if (wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)) {
+                        thingReceiver.setHasSendNote("1");
+                    }
+                }
                 thingReceiverMapper.insert(thingReceiver);
             }
         }
@@ -149,7 +188,7 @@ public class ThingServiceImpl implements ThingService {
     }
 
     @Override
-    public Result getCreatedThing(SearchPageDTO<ThingReceiver> page) {
+    public Result getCreatedThingAndReceivers(SearchPageDTO<ThingReceiver> page) {
         ThingReceiver tr = page.getData();
         Thing thing = thingMapper.getThingById(tr.getThingId());
         if (thing == null) {
@@ -159,7 +198,7 @@ public class ThingServiceImpl implements ThingService {
         // 2. get vo from mapper and set its thing field.
         ThingCreatedVO thingCreatedVO = thingMapper.getCreatedThingAboutReceiverNum(thing.getId());
         // 3.4. get the files, questions
-        getCommonThingVO(thing,thingCreatedVO);
+        getCommonThingVO(thing, thingCreatedVO);
         // 5. get the receivers page.
         Page<ThingReceiver> paramPage = page.getParamPage();
         thingCreatedVO.setThingReceiversPage(
@@ -177,7 +216,7 @@ public class ThingServiceImpl implements ThingService {
         // 1. get the thing entity.
         ThingJoinedVO thingJoinedVO = new ThingJoinedVO();
         // 2. get others.
-        getCommonThingVO(thing,thingJoinedVO);
+        getCommonThingVO(thing, thingJoinedVO);
 
         return ResultUtil.success(thingJoinedVO);
     }
@@ -331,7 +370,7 @@ public class ThingServiceImpl implements ThingService {
         }
     }
 
-    private void getCommonThingVO(Thing thing, ThingJoinedVO vo){
+    private void getCommonThingVO(Thing thing, ThingJoinedVO vo) {
         vo.setThing(thing);
         // 1. if thing has files, get the files.
         if ("1".equals(thing.getHasSendFile())) {

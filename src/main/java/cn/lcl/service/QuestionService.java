@@ -9,11 +9,12 @@ public interface QuestionService {
 
     /**
      *
-     * @param question
+     * @param question a question
      * @return save success or failed
      */
     Boolean saveQuestion(ThingQuestion question);
 
+    // 获取所有问题信息
     List<ThingQuestion> listQuestions(Integer thingId);
 
     /**
@@ -23,6 +24,7 @@ public interface QuestionService {
      */
     Boolean saveQuestionAnswer(QuestionAnswer answer);
 
+    // 获取某个事务对应的所有问题和答案
     List<ThingQuestion> listQuestionsWithAnswers(Integer thingId);
 
 }

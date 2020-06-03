@@ -56,7 +56,7 @@ public class ThingController {
      */
     @PostMapping("/created/get")
     public Result createdGet(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
-        return ResultUtil.vaildFieldError(result, () -> thingService.getCreatedThing(page));
+        return ResultUtil.vaildFieldError(result, () -> thingService.getCreatedThingAndReceivers(page));
     }
 
     /**
