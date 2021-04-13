@@ -17,3 +17,6 @@ file:
 url: http://localhost:8000/#/
 wx:
   secret: a2cad0b0e025348fc32202c2cd5798e1
+# IP 本地解析
+ip:
+  local-parsing: true

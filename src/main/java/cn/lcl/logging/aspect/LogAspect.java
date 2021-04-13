@@ -15,11 +15,11 @@
  */
 package cn.lcl.logging.aspect;
 
+import cn.lcl.logging.entity.Log;
+import cn.lcl.logging.service.LogService;
 import cn.lcl.util.AuthcUtil;
 import cn.lcl.util.RequestHolder;
-import cn.lcl.util.StringUtil;
-import cn.lcl.util.ThrowableUtil;
-import lombok.extern.slf4j.Slf4j;
+import cn.lcl.util.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -36,10 +36,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component
 @Aspect
-@Slf4j
 public class LogAspect {
 
     ThreadLocal<Long> currentTime = new ThreadLocal<>();
+
+    private final LogService logService;
+
+    public LogAspect(LogService logService) {
+        this.logService = logService;
+    }
+
 
     /**
      * 配置切入点
@@ -62,9 +68,8 @@ public class LogAspect {
         long executionTime = System.currentTimeMillis() - currentTime.get();
         currentTime.remove();
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
-        log.info("executionTime: " + executionTime + "ms & user: " + getUsername()
-                + " & browser: " + StringUtil.getBrowser(request)
-                + " & ip: " + StringUtil.getIp(request));
+        logService.save(new Log("INFO", executionTime), getUsername(),
+                StringUtils.getBrowser(request), StringUtils.getIp(request), joinPoint);
         return result;
     }
 
@@ -76,13 +81,12 @@ public class LogAspect {
      */
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
+        currentTime.set(System.currentTimeMillis());
         long executionTime = System.currentTimeMillis() - currentTime.get();
         currentTime.remove();
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
-        log.error("executionTime: " + executionTime + "ms & user: " + getUsername()
-                + " & browser: " + StringUtil.getBrowser(request)
-                + " & ip: " + StringUtil.getIp(request)
-                + " & error_trace: " + ThrowableUtil.getStackTrace(e));
+        logService.save(new Log("ERROR", executionTime), getUsername(),
+                StringUtils.getBrowser(request), StringUtils.getIp(request), (ProceedingJoinPoint) joinPoint);
     }
 
     public String getUsername() {

@@ -116,7 +116,9 @@ public class Thing implements Serializable {
     @JsonIgnore
     private Integer deleteFlg;
 
-    // 发送人的realName
+    /**
+     * 发送人的realName
+     */
     @TableField(exist = false)
     private String realName;
 
