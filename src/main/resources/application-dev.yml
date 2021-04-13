@@ -3,10 +3,10 @@ spring:
     url: jdbc:mysql://localhost:3306/oa?serverTimezone=GMT%2B8&useSSl=false&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: lcl123
+    password: 123456
 logging:
   level:
-    cn.lcl.mapper: trace
+    cn.lcl.mapper: info
   pattern:
 #    console: '%p%m%n'
 file:

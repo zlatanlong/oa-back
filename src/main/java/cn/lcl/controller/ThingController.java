@@ -1,5 +1,6 @@
 package cn.lcl.controller;
 
+import cn.lcl.logging.annotation.Log;
 import cn.lcl.pojo.dto.SearchPageDTO;
 import cn.lcl.pojo.dto.IdDTO;
 import cn.lcl.pojo.dto.ThingAddDTO;
@@ -39,11 +40,13 @@ public class ThingController {
     }
 
     @PostMapping("/joinedList")
+    @Log("查看参与事务列表")
     public Result joinedList(@RequestBody @Valid SearchPageDTO<ThingReceiver> page, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> thingService.listJoinedThings(page));
     }
 
     @PostMapping("/createdList")
+    @Log("查看创建事务列表")
     public Result createdList(@RequestBody @Valid SearchPageDTO<?> page, BindingResult result) {
         return ResultUtil.vaildFieldError(result, () -> thingService.listCreatedThings(page));
     }
