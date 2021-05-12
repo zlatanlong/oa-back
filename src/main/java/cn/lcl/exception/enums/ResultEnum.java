@@ -12,7 +12,7 @@ public enum ResultEnum {
      */
     SUCCESS(0, "成功"),
     UNKONW_ERROR(1, "未知错误"),
-    MISS_FIELD(2, ""), // 确实字段，错误信息由外层添加
+    MISS_FIELD(2, ""), // 缺失字段，错误信息由外层添加
     FILE_UPLOAD_FAILED(3, "文件上传失败"), // 确实字段，错误信息由外层添加
     GET_WX_TOKEN_FAILED(4,"获取微信token失败"),
     SEND_WX_NOTE_FAILED(5,"发送微信通知失败"),

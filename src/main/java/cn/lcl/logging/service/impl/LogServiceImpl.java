@@ -54,11 +54,19 @@ public class LogServiceImpl implements LogService {
         logMapper.insert(log);
     }
 
+
     /**
-     * 根据方法和传入的参数获取请求参数
+     * 根据方法和传入的参数获取请求参数，
+     * 有些方法参数并不是请求发生的参数，
+     * 这里只将方法参数数组有RequestBody或RequestParam的检出
+     *c
+     * @param method 方法
+     * @param args 切点参数
+     * @return 变量Json串
      */
     private String getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();
+        // 方法参数数组
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             //将RequestBody注解修饰的参数作为请求参数

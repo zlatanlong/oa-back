@@ -33,3 +33,6 @@ build/
 ### prod ###
 /src/main/resources/application-prod.yml
 /src/main/resources/server.pfx
+/src/main/resources/pfx-password.txt
+/src/main/resources/jks-password.txt
+/src/main/resources/oa.lclong.top.jks
