@@ -19,12 +19,12 @@ public class WxSchedule {
 
     @Scheduled(initialDelay = 1000, fixedDelay = 7000 * 1000)
     private void configureTasks() {
-        log.debug("执行静态定时任务时间: " + LocalDateTime.now());
-        try {
-            wxService.getWxToken();
-        } catch (Exception e) {
-            e.printStackTrace();
-            wxService.getWxToken();
-        }
+//        log.debug("执行静态定时任务时间: " + LocalDateTime.now());
+//        try {
+//            wxService.getWxToken();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            wxService.getWxToken();
+//        }
     }
 }

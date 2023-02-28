@@ -93,7 +93,7 @@ public class ThingServiceImpl implements ThingService {
                 thingReceiver.setThingId(thing.getId());
                 thingReceiver.setUserId(user.getId());
                 if (user.getWxOpenId() != null) {
-                    futures.add(executorService.submit(() -> wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)));
+//                    futures.add(executorService.submit(() -> wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)));
                 } else {
                     thingReceiverMapper.insert(thingReceiver);
                 }
@@ -126,9 +126,9 @@ public class ThingServiceImpl implements ThingService {
                 thingReceiver.setUserId(receiverId);
                 User user = userMapper.selectById(receiverId);
                 if (user.getWxOpenId() != null) {
-                    if (wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)) {
-                        thingReceiver.setHasSendNote("1");
-                    }
+//                    if (wxService.sendThingNote(user.getWxOpenId(), thing, thingReceiver)) {
+//                        thingReceiver.setHasSendNote("1");
+//                    }
                 }
                 thingReceiverMapper.insert(thingReceiver);
             }
